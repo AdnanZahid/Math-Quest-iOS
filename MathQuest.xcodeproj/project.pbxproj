@@ -1,0 +1,883 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E613CE061A8EF99900F91034 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E613CE041A8EF99900F91034 /* MainMenu.xib */; };
+		E613CE121A8EF99900F91034 /* MathQuestMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E613CE111A8EF99900F91034 /* MathQuestMacTests.swift */; };
+		E61FBADA1A95EDE40006278A /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61FBAD91A95EDE40006278A /* Difficulty.swift */; };
+		E61FBADB1A95EDE40006278A /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61FBAD91A95EDE40006278A /* Difficulty.swift */; };
+		E64FB84E1A924149001E2443 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E64FB84D1A924149001E2443 /* Images.xcassets */; };
+		E64FB8501A9241F6001E2443 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FB84F1A9241F6001E2443 /* Home.swift */; };
+		E64FB8511A9241F6001E2443 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FB84F1A9241F6001E2443 /* Home.swift */; };
+		E64FB8531A9244B6001E2443 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E613CDFC1A8EF99900F91034 /* AppDelegate.swift */; };
+		E64FB8541A924579001E2443 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E64FB84D1A924149001E2443 /* Images.xcassets */; };
+		E65F5A9F1A933BE20047AF7A /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65F5A9E1A933BE20047AF7A /* Menu.swift */; };
+		E65F5AA11A933BEE0047AF7A /* Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65F5AA01A933BEE0047AF7A /* Guide.swift */; };
+		E65F5AA31A933C030047AF7A /* Upgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65F5AA21A933C030047AF7A /* Upgrade.swift */; };
+		E65F5AA41A93406B0047AF7A /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65F5A9E1A933BE20047AF7A /* Menu.swift */; };
+		E65F5AA51A93406E0047AF7A /* Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65F5AA01A933BEE0047AF7A /* Guide.swift */; };
+		E65F5AA61A9340720047AF7A /* Upgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65F5AA21A933C030047AF7A /* Upgrade.swift */; };
+		E67207F41A93F151003E7DAE /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67207F31A93F151003E7DAE /* GoogleMobileAds.framework */; };
+		E67207F51A93F151003E7DAE /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67207F31A93F151003E7DAE /* GoogleMobileAds.framework */; };
+		E6762B571A8DBE4700E9368D /* MathScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6762B561A8DBE4700E9368D /* MathScene.swift */; };
+		E682A3CD1A98B8B800E53E87 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = E682A3CC1A98B8B800E53E87 /* Audio.swift */; };
+		E682A3CE1A98B8B800E53E87 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = E682A3CC1A98B8B800E53E87 /* Audio.swift */; };
+		E682A3D21A98CB6800E53E87 /* GameScene.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3CF1A98CB6800E53E87 /* GameScene.wav */; };
+		E682A3D31A98CB6800E53E87 /* GameScene.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3CF1A98CB6800E53E87 /* GameScene.wav */; };
+		E682A3D41A98CB6800E53E87 /* Home.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3D01A98CB6800E53E87 /* Home.wav */; };
+		E682A3D51A98CB6800E53E87 /* Home.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3D01A98CB6800E53E87 /* Home.wav */; };
+		E682A3D61A98CB6800E53E87 /* MathScene.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3D11A98CB6800E53E87 /* MathScene.wav */; };
+		E682A3D71A98CB6800E53E87 /* MathScene.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3D11A98CB6800E53E87 /* MathScene.wav */; };
+		E682A3DC1A9925CF00E53E87 /* Pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3DB1A9925CF00E53E87 /* Pop.wav */; };
+		E682A3DD1A9925CF00E53E87 /* Pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3DB1A9925CF00E53E87 /* Pop.wav */; };
+		E682A3DF1A99269D00E53E87 /* Shield.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3DE1A99269D00E53E87 /* Shield.wav */; };
+		E682A3E01A99269D00E53E87 /* Shield.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3DE1A99269D00E53E87 /* Shield.wav */; };
+		E682A3E51A99343B00E53E87 /* Button.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3E41A99343B00E53E87 /* Button.wav */; };
+		E682A3E61A99343B00E53E87 /* Button.wav in Resources */ = {isa = PBXBuildFile; fileRef = E682A3E41A99343B00E53E87 /* Button.wav */; };
+		E6AC55101A8C3A740091AF9F /* GGButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AC550F1A8C3A740091AF9F /* GGButton.swift */; };
+		E6B193791A898C57006E0EE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B193781A898C57006E0EE9 /* AppDelegate.swift */; };
+		E6B1937D1A898C57006E0EE9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B1937C1A898C57006E0EE9 /* GameScene.swift */; };
+		E6B1937F1A898C57006E0EE9 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B1937E1A898C57006E0EE9 /* GameViewController.swift */; };
+		E6B193821A898C57006E0EE9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6B193801A898C57006E0EE9 /* Main.storyboard */; };
+		E6B193931A898C57006E0EE9 /* MathQuestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B193921A898C57006E0EE9 /* MathQuestTests.swift */; };
+		E6B374511A9A843D00050BA9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6B374501A9A843D00050BA9 /* LaunchScreen.xib */; };
+		E6C07D821A926E67000D2C6F /* LocalScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C07D811A926E67000D2C6F /* LocalScores.swift */; };
+		E6C07D831A926E67000D2C6F /* LocalScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C07D811A926E67000D2C6F /* LocalScores.swift */; };
+		E6D353011A9A027B000AFF2C /* FadeOut.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6D352FD1A9A027B000AFF2C /* FadeOut.wav */; };
+		E6D353021A9A027B000AFF2C /* GreenScore.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6D352FE1A9A027B000AFF2C /* GreenScore.wav */; };
+		E6D353031A9A027B000AFF2C /* Magnet.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6D352FF1A9A027B000AFF2C /* Magnet.wav */; };
+		E6D353041A9A027B000AFF2C /* RedScore.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6D353001A9A027B000AFF2C /* RedScore.wav */; };
+		E6E051841A920F2E00F63F3C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B1937C1A898C57006E0EE9 /* GameScene.swift */; };
+		E6E051851A920F3200F63F3C /* MathScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6762B561A8DBE4700E9368D /* MathScene.swift */; };
+		E6E051871A920F6600F63F3C /* GGButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AC550F1A8C3A740091AF9F /* GGButton.swift */; };
+		E6E0518A1A92112B00F63F3C /* hero.atlas in Resources */ = {isa = PBXBuildFile; fileRef = E6E051881A92112B00F63F3C /* hero.atlas */; };
+		E6E0518B1A92112B00F63F3C /* shield.atlas in Resources */ = {isa = PBXBuildFile; fileRef = E6E051891A92112B00F63F3C /* shield.atlas */; };
+		E6E0518D1A9211F400F63F3C /* shield.atlas in Resources */ = {isa = PBXBuildFile; fileRef = E6E051891A92112B00F63F3C /* shield.atlas */; };
+		E6E0518E1A9211FA00F63F3C /* hero.atlas in Resources */ = {isa = PBXBuildFile; fileRef = E6E051881A92112B00F63F3C /* hero.atlas */; };
+		E6E051B11A92124A00F63F3C /* NegativeNumber.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051A11A92124A00F63F3C /* NegativeNumber.wav */; };
+		E6E051B41A92124A00F63F3C /* Coin.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051A41A92124A00F63F3C /* Coin.wav */; };
+		E6E051B51A92124A00F63F3C /* Died.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051A51A92124A00F63F3C /* Died.wav */; };
+		E6E051B81A92124A00F63F3C /* PositiveNumber.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051A81A92124A00F63F3C /* PositiveNumber.wav */; };
+		E6E051BA1A92124A00F63F3C /* Highscore.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051AA1A92124A00F63F3C /* Highscore.wav */; };
+		E6E051C21A92127900F63F3C /* NegativeNumber.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051A11A92124A00F63F3C /* NegativeNumber.wav */; };
+		E6E051C51A92127900F63F3C /* Coin.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051A41A92124A00F63F3C /* Coin.wav */; };
+		E6E051C61A92127900F63F3C /* Died.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051A51A92124A00F63F3C /* Died.wav */; };
+		E6E051C91A92127900F63F3C /* PositiveNumber.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051A81A92124A00F63F3C /* PositiveNumber.wav */; };
+		E6E051CB1A92127900F63F3C /* Highscore.wav in Resources */ = {isa = PBXBuildFile; fileRef = E6E051AA1A92124A00F63F3C /* Highscore.wav */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E613CE0C1A8EF99900F91034 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E6B1936B1A898C57006E0EE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E613CDF71A8EF99900F91034;
+			remoteInfo = MathQuestMac;
+		};
+		E6B1938D1A898C57006E0EE9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E6B1936B1A898C57006E0EE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6B193721A898C57006E0EE9;
+			remoteInfo = MathQuest;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E613CDF81A8EF99900F91034 /* MathQuestMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MathQuestMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E613CDFB1A8EF99900F91034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E613CDFC1A8EF99900F91034 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E613CE051A8EF99900F91034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E613CE0B1A8EF99900F91034 /* MathQuestMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MathQuestMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E613CE101A8EF99900F91034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E613CE111A8EF99900F91034 /* MathQuestMacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathQuestMacTests.swift; sourceTree = "<group>"; };
+		E61FBAD91A95EDE40006278A /* Difficulty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
+		E64FB84D1A924149001E2443 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MathQuest/Images.xcassets; sourceTree = "<group>"; };
+		E64FB84F1A9241F6001E2443 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		E65F5A9E1A933BE20047AF7A /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		E65F5AA01A933BEE0047AF7A /* Guide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guide.swift; sourceTree = "<group>"; };
+		E65F5AA21A933C030047AF7A /* Upgrade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upgrade.swift; sourceTree = "<group>"; };
+		E67207F31A93F151003E7DAE /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		E6762B561A8DBE4700E9368D /* MathScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MathScene.swift; path = MathQuest/MathScene.swift; sourceTree = "<group>"; };
+		E682A3CC1A98B8B800E53E87 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		E682A3CF1A98CB6800E53E87 /* GameScene.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = GameScene.wav; sourceTree = "<group>"; };
+		E682A3D01A98CB6800E53E87 /* Home.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Home.wav; sourceTree = "<group>"; };
+		E682A3D11A98CB6800E53E87 /* MathScene.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MathScene.wav; sourceTree = "<group>"; };
+		E682A3DB1A9925CF00E53E87 /* Pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Pop.wav; sourceTree = "<group>"; };
+		E682A3DE1A99269D00E53E87 /* Shield.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Shield.wav; sourceTree = "<group>"; };
+		E682A3E41A99343B00E53E87 /* Button.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Button.wav; sourceTree = "<group>"; };
+		E6AC550F1A8C3A740091AF9F /* GGButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GGButton.swift; path = MathQuest/GGButton.swift; sourceTree = "<group>"; };
+		E6B193731A898C57006E0EE9 /* MathQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MathQuest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6B193771A898C57006E0EE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6B193781A898C57006E0EE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E6B1937C1A898C57006E0EE9 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameScene.swift; path = MathQuest/GameScene.swift; sourceTree = "<group>"; };
+		E6B1937E1A898C57006E0EE9 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		E6B193811A898C57006E0EE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E6B1938C1A898C57006E0EE9 /* MathQuestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MathQuestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6B193911A898C57006E0EE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6B193921A898C57006E0EE9 /* MathQuestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathQuestTests.swift; sourceTree = "<group>"; };
+		E6B374501A9A843D00050BA9 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		E6C07D811A926E67000D2C6F /* LocalScores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalScores.swift; sourceTree = "<group>"; };
+		E6D352FD1A9A027B000AFF2C /* FadeOut.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = FadeOut.wav; sourceTree = "<group>"; };
+		E6D352FE1A9A027B000AFF2C /* GreenScore.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = GreenScore.wav; sourceTree = "<group>"; };
+		E6D352FF1A9A027B000AFF2C /* Magnet.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Magnet.wav; sourceTree = "<group>"; };
+		E6D353001A9A027B000AFF2C /* RedScore.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = RedScore.wav; sourceTree = "<group>"; };
+		E6E051881A92112B00F63F3C /* hero.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hero.atlas; sourceTree = "<group>"; };
+		E6E051891A92112B00F63F3C /* shield.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shield.atlas; sourceTree = "<group>"; };
+		E6E051A11A92124A00F63F3C /* NegativeNumber.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = NegativeNumber.wav; sourceTree = "<group>"; };
+		E6E051A41A92124A00F63F3C /* Coin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Coin.wav; sourceTree = "<group>"; };
+		E6E051A51A92124A00F63F3C /* Died.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Died.wav; sourceTree = "<group>"; };
+		E6E051A81A92124A00F63F3C /* PositiveNumber.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PositiveNumber.wav; sourceTree = "<group>"; };
+		E6E051AA1A92124A00F63F3C /* Highscore.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Highscore.wav; sourceTree = "<group>"; };
+		E6F12C581A9FDE3200FEF982 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		E6F6A7C61A93E3240041FAED /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E613CDF51A8EF99900F91034 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E67207F51A93F151003E7DAE /* GoogleMobileAds.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E613CE081A8EF99900F91034 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6B193701A898C57006E0EE9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E67207F41A93F151003E7DAE /* GoogleMobileAds.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6B193891A898C57006E0EE9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E613CDF91A8EF99900F91034 /* MathQuestMac */ = {
+			isa = PBXGroup;
+			children = (
+				E613CDFC1A8EF99900F91034 /* AppDelegate.swift */,
+				E613CE041A8EF99900F91034 /* MainMenu.xib */,
+				E613CDFA1A8EF99900F91034 /* Supporting Files */,
+			);
+			path = MathQuestMac;
+			sourceTree = "<group>";
+		};
+		E613CDFA1A8EF99900F91034 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E613CDFB1A8EF99900F91034 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E613CE0E1A8EF99900F91034 /* MathQuestMacTests */ = {
+			isa = PBXGroup;
+			children = (
+				E613CE111A8EF99900F91034 /* MathQuestMacTests.swift */,
+				E613CE0F1A8EF99900F91034 /* Supporting Files */,
+			);
+			path = MathQuestMacTests;
+			sourceTree = "<group>";
+		};
+		E613CE0F1A8EF99900F91034 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E613CE101A8EF99900F91034 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E613CE191A8EFACF00F91034 /* SharedResources */ = {
+			isa = PBXGroup;
+			children = (
+				E67207F31A93F151003E7DAE /* GoogleMobileAds.framework */,
+				E6F6A7C61A93E3240041FAED /* Bridging-Header.h */,
+				E64FB84D1A924149001E2443 /* Images.xcassets */,
+				E6E0519F1A92124A00F63F3C /* sounds */,
+				E6E051881A92112B00F63F3C /* hero.atlas */,
+				E6E051891A92112B00F63F3C /* shield.atlas */,
+				E64FB84F1A9241F6001E2443 /* Home.swift */,
+				E65F5A9E1A933BE20047AF7A /* Menu.swift */,
+				E682A3CC1A98B8B800E53E87 /* Audio.swift */,
+				E6C07D811A926E67000D2C6F /* LocalScores.swift */,
+				E65F5AA01A933BEE0047AF7A /* Guide.swift */,
+				E65F5AA21A933C030047AF7A /* Upgrade.swift */,
+				E6B1937C1A898C57006E0EE9 /* GameScene.swift */,
+				E6762B561A8DBE4700E9368D /* MathScene.swift */,
+				E6AC550F1A8C3A740091AF9F /* GGButton.swift */,
+				E61FBAD91A95EDE40006278A /* Difficulty.swift */,
+			);
+			name = SharedResources;
+			sourceTree = "<group>";
+		};
+		E613CE1A1A8EFAF300F91034 /* Testing */ = {
+			isa = PBXGroup;
+			children = (
+				E6B1938F1A898C57006E0EE9 /* MathQuestTests */,
+				E613CE0E1A8EF99900F91034 /* MathQuestMacTests */,
+			);
+			name = Testing;
+			sourceTree = "<group>";
+		};
+		E6B1936A1A898C57006E0EE9 = {
+			isa = PBXGroup;
+			children = (
+				E6F12C581A9FDE3200FEF982 /* GameKit.framework */,
+				E613CE191A8EFACF00F91034 /* SharedResources */,
+				E6B193751A898C57006E0EE9 /* MathQuest */,
+				E613CDF91A8EF99900F91034 /* MathQuestMac */,
+				E6B193741A898C57006E0EE9 /* Products */,
+				E613CE1A1A8EFAF300F91034 /* Testing */,
+			);
+			sourceTree = "<group>";
+		};
+		E6B193741A898C57006E0EE9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E6B193731A898C57006E0EE9 /* MathQuest.app */,
+				E6B1938C1A898C57006E0EE9 /* MathQuestTests.xctest */,
+				E613CDF81A8EF99900F91034 /* MathQuestMac.app */,
+				E613CE0B1A8EF99900F91034 /* MathQuestMacTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E6B193751A898C57006E0EE9 /* MathQuest */ = {
+			isa = PBXGroup;
+			children = (
+				E6B193781A898C57006E0EE9 /* AppDelegate.swift */,
+				E6B1937E1A898C57006E0EE9 /* GameViewController.swift */,
+				E6B193801A898C57006E0EE9 /* Main.storyboard */,
+				E6B374501A9A843D00050BA9 /* LaunchScreen.xib */,
+				E6B193761A898C57006E0EE9 /* Supporting Files */,
+			);
+			path = MathQuest;
+			sourceTree = "<group>";
+		};
+		E6B193761A898C57006E0EE9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E6B193771A898C57006E0EE9 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E6B1938F1A898C57006E0EE9 /* MathQuestTests */ = {
+			isa = PBXGroup;
+			children = (
+				E6B193921A898C57006E0EE9 /* MathQuestTests.swift */,
+				E6B193901A898C57006E0EE9 /* Supporting Files */,
+			);
+			path = MathQuestTests;
+			sourceTree = "<group>";
+		};
+		E6B193901A898C57006E0EE9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E6B193911A898C57006E0EE9 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E6E0519F1A92124A00F63F3C /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				E6D352FD1A9A027B000AFF2C /* FadeOut.wav */,
+				E6D352FE1A9A027B000AFF2C /* GreenScore.wav */,
+				E6D352FF1A9A027B000AFF2C /* Magnet.wav */,
+				E6D353001A9A027B000AFF2C /* RedScore.wav */,
+				E682A3E41A99343B00E53E87 /* Button.wav */,
+				E682A3DE1A99269D00E53E87 /* Shield.wav */,
+				E682A3DB1A9925CF00E53E87 /* Pop.wav */,
+				E682A3CF1A98CB6800E53E87 /* GameScene.wav */,
+				E682A3D01A98CB6800E53E87 /* Home.wav */,
+				E682A3D11A98CB6800E53E87 /* MathScene.wav */,
+				E6E051A11A92124A00F63F3C /* NegativeNumber.wav */,
+				E6E051A41A92124A00F63F3C /* Coin.wav */,
+				E6E051A51A92124A00F63F3C /* Died.wav */,
+				E6E051A81A92124A00F63F3C /* PositiveNumber.wav */,
+				E6E051AA1A92124A00F63F3C /* Highscore.wav */,
+			);
+			path = sounds;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E613CDF71A8EF99900F91034 /* MathQuestMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E613CE171A8EF99900F91034 /* Build configuration list for PBXNativeTarget "MathQuestMac" */;
+			buildPhases = (
+				E613CDF41A8EF99900F91034 /* Sources */,
+				E613CDF51A8EF99900F91034 /* Frameworks */,
+				E613CDF61A8EF99900F91034 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MathQuestMac;
+			productName = MathQuestMac;
+			productReference = E613CDF81A8EF99900F91034 /* MathQuestMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E613CE0A1A8EF99900F91034 /* MathQuestMacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E613CE181A8EF99900F91034 /* Build configuration list for PBXNativeTarget "MathQuestMacTests" */;
+			buildPhases = (
+				E613CE071A8EF99900F91034 /* Sources */,
+				E613CE081A8EF99900F91034 /* Frameworks */,
+				E613CE091A8EF99900F91034 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E613CE0D1A8EF99900F91034 /* PBXTargetDependency */,
+			);
+			name = MathQuestMacTests;
+			productName = MathQuestMacTests;
+			productReference = E613CE0B1A8EF99900F91034 /* MathQuestMacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E6B193721A898C57006E0EE9 /* MathQuest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6B193961A898C57006E0EE9 /* Build configuration list for PBXNativeTarget "MathQuest" */;
+			buildPhases = (
+				E6B1936F1A898C57006E0EE9 /* Sources */,
+				E6B193701A898C57006E0EE9 /* Frameworks */,
+				E6B193711A898C57006E0EE9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MathQuest;
+			productName = MathQuest;
+			productReference = E6B193731A898C57006E0EE9 /* MathQuest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E6B1938B1A898C57006E0EE9 /* MathQuestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6B193991A898C57006E0EE9 /* Build configuration list for PBXNativeTarget "MathQuestTests" */;
+			buildPhases = (
+				E6B193881A898C57006E0EE9 /* Sources */,
+				E6B193891A898C57006E0EE9 /* Frameworks */,
+				E6B1938A1A898C57006E0EE9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E6B1938E1A898C57006E0EE9 /* PBXTargetDependency */,
+			);
+			name = MathQuestTests;
+			productName = MathQuestTests;
+			productReference = E6B1938C1A898C57006E0EE9 /* MathQuestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E6B1936B1A898C57006E0EE9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Adnan Zahid";
+				TargetAttributes = {
+					E613CDF71A8EF99900F91034 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					E613CE0A1A8EF99900F91034 = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = E613CDF71A8EF99900F91034;
+					};
+					E6B193721A898C57006E0EE9 = {
+						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = Q666HR669V;
+					};
+					E6B1938B1A898C57006E0EE9 = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = E6B193721A898C57006E0EE9;
+					};
+				};
+			};
+			buildConfigurationList = E6B1936E1A898C57006E0EE9 /* Build configuration list for PBXProject "MathQuest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E6B1936A1A898C57006E0EE9;
+			productRefGroup = E6B193741A898C57006E0EE9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E6B193721A898C57006E0EE9 /* MathQuest */,
+				E6B1938B1A898C57006E0EE9 /* MathQuestTests */,
+				E613CDF71A8EF99900F91034 /* MathQuestMac */,
+				E613CE0A1A8EF99900F91034 /* MathQuestMacTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E613CDF61A8EF99900F91034 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6E051C61A92127900F63F3C /* Died.wav in Resources */,
+				E682A3E61A99343B00E53E87 /* Button.wav in Resources */,
+				E682A3D71A98CB6800E53E87 /* MathScene.wav in Resources */,
+				E682A3D51A98CB6800E53E87 /* Home.wav in Resources */,
+				E64FB8541A924579001E2443 /* Images.xcassets in Resources */,
+				E6E0518D1A9211F400F63F3C /* shield.atlas in Resources */,
+				E682A3E01A99269D00E53E87 /* Shield.wav in Resources */,
+				E682A3DD1A9925CF00E53E87 /* Pop.wav in Resources */,
+				E6E0518E1A9211FA00F63F3C /* hero.atlas in Resources */,
+				E6E051C21A92127900F63F3C /* NegativeNumber.wav in Resources */,
+				E6E051CB1A92127900F63F3C /* Highscore.wav in Resources */,
+				E6E051C51A92127900F63F3C /* Coin.wav in Resources */,
+				E682A3D31A98CB6800E53E87 /* GameScene.wav in Resources */,
+				E6E051C91A92127900F63F3C /* PositiveNumber.wav in Resources */,
+				E613CE061A8EF99900F91034 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E613CE091A8EF99900F91034 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6B193711A898C57006E0EE9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6B374511A9A843D00050BA9 /* LaunchScreen.xib in Resources */,
+				E6E0518B1A92112B00F63F3C /* shield.atlas in Resources */,
+				E6D353021A9A027B000AFF2C /* GreenScore.wav in Resources */,
+				E682A3DC1A9925CF00E53E87 /* Pop.wav in Resources */,
+				E6E0518A1A92112B00F63F3C /* hero.atlas in Resources */,
+				E682A3D41A98CB6800E53E87 /* Home.wav in Resources */,
+				E682A3D61A98CB6800E53E87 /* MathScene.wav in Resources */,
+				E6D353041A9A027B000AFF2C /* RedScore.wav in Resources */,
+				E6E051B11A92124A00F63F3C /* NegativeNumber.wav in Resources */,
+				E64FB84E1A924149001E2443 /* Images.xcassets in Resources */,
+				E6E051BA1A92124A00F63F3C /* Highscore.wav in Resources */,
+				E682A3E51A99343B00E53E87 /* Button.wav in Resources */,
+				E6D353031A9A027B000AFF2C /* Magnet.wav in Resources */,
+				E6E051B51A92124A00F63F3C /* Died.wav in Resources */,
+				E6E051B41A92124A00F63F3C /* Coin.wav in Resources */,
+				E682A3D21A98CB6800E53E87 /* GameScene.wav in Resources */,
+				E6B193821A898C57006E0EE9 /* Main.storyboard in Resources */,
+				E6E051B81A92124A00F63F3C /* PositiveNumber.wav in Resources */,
+				E6D353011A9A027B000AFF2C /* FadeOut.wav in Resources */,
+				E682A3DF1A99269D00E53E87 /* Shield.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6B1938A1A898C57006E0EE9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E613CDF41A8EF99900F91034 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6E051841A920F2E00F63F3C /* GameScene.swift in Sources */,
+				E6E051851A920F3200F63F3C /* MathScene.swift in Sources */,
+				E682A3CE1A98B8B800E53E87 /* Audio.swift in Sources */,
+				E61FBADB1A95EDE40006278A /* Difficulty.swift in Sources */,
+				E65F5AA61A9340720047AF7A /* Upgrade.swift in Sources */,
+				E65F5AA41A93406B0047AF7A /* Menu.swift in Sources */,
+				E6E051871A920F6600F63F3C /* GGButton.swift in Sources */,
+				E64FB8531A9244B6001E2443 /* AppDelegate.swift in Sources */,
+				E65F5AA51A93406E0047AF7A /* Guide.swift in Sources */,
+				E6C07D831A926E67000D2C6F /* LocalScores.swift in Sources */,
+				E64FB8511A9241F6001E2443 /* Home.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E613CE071A8EF99900F91034 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E613CE121A8EF99900F91034 /* MathQuestMacTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6B1936F1A898C57006E0EE9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E682A3CD1A98B8B800E53E87 /* Audio.swift in Sources */,
+				E6B1937D1A898C57006E0EE9 /* GameScene.swift in Sources */,
+				E65F5AA11A933BEE0047AF7A /* Guide.swift in Sources */,
+				E6C07D821A926E67000D2C6F /* LocalScores.swift in Sources */,
+				E6B1937F1A898C57006E0EE9 /* GameViewController.swift in Sources */,
+				E61FBADA1A95EDE40006278A /* Difficulty.swift in Sources */,
+				E65F5AA31A933C030047AF7A /* Upgrade.swift in Sources */,
+				E6762B571A8DBE4700E9368D /* MathScene.swift in Sources */,
+				E6B193791A898C57006E0EE9 /* AppDelegate.swift in Sources */,
+				E64FB8501A9241F6001E2443 /* Home.swift in Sources */,
+				E65F5A9F1A933BE20047AF7A /* Menu.swift in Sources */,
+				E6AC55101A8C3A740091AF9F /* GGButton.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6B193881A898C57006E0EE9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6B193931A898C57006E0EE9 /* MathQuestTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E613CE0D1A8EF99900F91034 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E613CDF71A8EF99900F91034 /* MathQuestMac */;
+			targetProxy = E613CE0C1A8EF99900F91034 /* PBXContainerItemProxy */;
+		};
+		E6B1938E1A898C57006E0EE9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6B193721A898C57006E0EE9 /* MathQuest */;
+			targetProxy = E6B1938D1A898C57006E0EE9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E613CE041A8EF99900F91034 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E613CE051A8EF99900F91034 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		E6B193801A898C57006E0EE9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E6B193811A898C57006E0EE9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E613CE131A8EF99900F91034 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MathQuestMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = MathQuestMac;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E613CE141A8EF99900F91034 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = MathQuestMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = MathQuestMac;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E613CE151A8EF99900F91034 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MathQuestMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_NAME = MathQuestMacTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MathQuestMac.app/Contents/MacOS/MathQuestMac";
+			};
+			name = Debug;
+		};
+		E613CE161A8EF99900F91034 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MathQuestMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_NAME = MathQuestMacTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MathQuestMac.app/Contents/MacOS/MathQuestMac";
+			};
+			name = Release;
+		};
+		E6B193941A898C57006E0EE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E6B193951A898C57006E0EE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E6B193971A898C57006E0EE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				INFOPLIST_FILE = MathQuest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = MathQuest;
+				PROVISIONING_PROFILE = "72ba9647-54eb-4230-bb49-75c355ae0ac2";
+				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E6B193981A898C57006E0EE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				INFOPLIST_FILE = MathQuest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = MathQuest;
+				PROVISIONING_PROFILE = "72ba9647-54eb-4230-bb49-75c355ae0ac2";
+				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E6B1939A1A898C57006E0EE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MathQuestTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = MathQuestTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MathQuest.app/MathQuest";
+			};
+			name = Debug;
+		};
+		E6B1939B1A898C57006E0EE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MathQuestTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = MathQuestTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MathQuest.app/MathQuest";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E613CE171A8EF99900F91034 /* Build configuration list for PBXNativeTarget "MathQuestMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E613CE131A8EF99900F91034 /* Debug */,
+				E613CE141A8EF99900F91034 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E613CE181A8EF99900F91034 /* Build configuration list for PBXNativeTarget "MathQuestMacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E613CE151A8EF99900F91034 /* Debug */,
+				E613CE161A8EF99900F91034 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6B1936E1A898C57006E0EE9 /* Build configuration list for PBXProject "MathQuest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6B193941A898C57006E0EE9 /* Debug */,
+				E6B193951A898C57006E0EE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6B193961A898C57006E0EE9 /* Build configuration list for PBXNativeTarget "MathQuest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6B193971A898C57006E0EE9 /* Debug */,
+				E6B193981A898C57006E0EE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6B193991A898C57006E0EE9 /* Build configuration list for PBXNativeTarget "MathQuestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6B1939A1A898C57006E0EE9 /* Debug */,
+				E6B1939B1A898C57006E0EE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E6B1936B1A898C57006E0EE9 /* Project object */;
+}
