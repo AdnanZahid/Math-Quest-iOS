@@ -20,13 +20,13 @@ class Upgrade: SKScene {
     var buttonShowDifficulty: GGButton!;
     var buttonBack: GGButton!;
     var buttonColor: SKColor = SKColor(red: 0, green: 0.4784313725, blue: 1, alpha: 0.5);
-    var difficultyColor: SKColor = SKColor.whiteColor();
-    var progressColor: SKColor = SKColor.whiteColor();
+    var difficultyColor: SKColor = SKColor.white;
+    var progressColor: SKColor = SKColor.white;
     
     let buttonScaleX: CGFloat = 1;
     let buttonScaleY: CGFloat = 1;
     
-    let white = SKColor.whiteColor();
+    let white = SKColor.white;
     let fontSize: CGFloat = 40;
     
     var bannerHeight: CGFloat = 0;
@@ -52,38 +52,38 @@ class Upgrade: SKScene {
         medium.label.text = "▢ Medium";
         hard.label.text = "▢ Hard";
         geek.label.text = "▢ Geek";
-        NSUserDefaults.standardUserDefaults().setInteger(-1, forKey: "difficulty");
-        NSUserDefaults.standardUserDefaults().synchronize();
+        UserDefaults.standard.set(-1, forKey: "difficulty");
+        UserDefaults.standard.synchronize();
     }
     func switchToMedium() {
         cake.label.text = "▢ Cake";
         medium.label.text = "☑ Medium";
         hard.label.text = "▢ Hard";
         geek.label.text = "▢ Geek";
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "difficulty");
-        NSUserDefaults.standardUserDefaults().synchronize();
+        UserDefaults.standard.set(0, forKey: "difficulty");
+        UserDefaults.standard.synchronize();
     }
     func switchToHard() {
         cake.label.text = "▢ Cake";
         medium.label.text = "▢ Medium";
         hard.label.text = "☑ Hard";
         geek.label.text = "▢ Geek";
-        NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "difficulty");
-        NSUserDefaults.standardUserDefaults().synchronize();
+        UserDefaults.standard.set(1, forKey: "difficulty");
+        UserDefaults.standard.synchronize();
     }
     func switchToGeek() {
         cake.label.text = "▢ Cake";
         medium.label.text = "▢ Medium";
         hard.label.text = "▢ Hard";
         geek.label.text = "☑ Geek";
-        NSUserDefaults.standardUserDefaults().setInteger(2, forKey: "difficulty");
-        NSUserDefaults.standardUserDefaults().synchronize();
+        UserDefaults.standard.set(2, forKey: "difficulty");
+        UserDefaults.standard.synchronize();
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        width = CGRectGetMaxX(frame);
-        height = CGRectGetMaxY(frame);
+        width = frame.maxX;
+        height = frame.maxY;
         
         height -= bannerHeight;
         
@@ -100,7 +100,7 @@ class Upgrade: SKScene {
         progressLabel.text = "Difficulty:";
         progressLabel.fontSize = 60;
         progressLabel.fontColor = progressColor;
-        progressLabel.horizontalAlignmentMode = .Left;
+        progressLabel.horizontalAlignmentMode = .left;
         progressLabel.xScale = scaleX;
         progressLabel.yScale = scaleY;
         progressLabel.position = CGPoint(x:progressLabel.fontSize*scaleX, y:height-progressLabel.fontSize*scaleY*1.5);
@@ -136,16 +136,16 @@ class Upgrade: SKScene {
         geek.position = CGPoint(x:2.5*medium.label.fontSize*scaleX, y:height-cake.label.fontSize*scaleY*11);
         addChild(geek);
         
-        if NSUserDefaults.standardUserDefaults().integerForKey("difficulty") == -1 {
+        if UserDefaults.standard.integer(forKey: "difficulty") == -1 {
             switchToCake();
         }
-        else if NSUserDefaults.standardUserDefaults().integerForKey("difficulty") == 0 {
+        else if UserDefaults.standard.integer(forKey: "difficulty") == 0 {
             switchToMedium();
         }
-        else if NSUserDefaults.standardUserDefaults().integerForKey("difficulty") == 1 {
+        else if UserDefaults.standard.integer(forKey: "difficulty") == 1 {
             switchToHard();
         }
-        else if NSUserDefaults.standardUserDefaults().integerForKey("difficulty") == 2 {
+        else if UserDefaults.standard.integer(forKey: "difficulty") == 2 {
             switchToGeek();
         }
         
@@ -154,15 +154,16 @@ class Upgrade: SKScene {
         buttonBack.yScale = scaleY;
         buttonBack.restartLabel.fontSize = 40;
         buttonBack.restartLabel.position.y = buttonBack.defaultButton.position.y - buttonBack.restartLabel.fontSize*0.35;
-        buttonBack.position = CGPointMake(width-buttonBack.defaultButton.size.width*scaleX*0.6, buttonBack.defaultButton.size.height*scaleY*0.7);
+        buttonBack.position = CGPoint(x: width-buttonBack.defaultButton.size.width*scaleX*0.6,
+                                      y: buttonBack.defaultButton.size.height*scaleY*0.7);
         addChild(buttonBack);
     }
     func placeLabel(text: NSString, distance: CGFloat, color: SKColor, yCoefficient: CGFloat) {
         let label = SKLabelNode(fontNamed:"ChalkboardSE-Bold");
-        label.text = text;
+        label.text = text as String;
         label.fontSize = fontSize;
         label.fontColor = color;
-        label.horizontalAlignmentMode = .Left
+        label.horizontalAlignmentMode = .left
         label.position = CGPoint(x:distance, y:height-yCoefficient*label.fontSize*scaleY);
         label.zPosition = 1;
         label.xScale = scaleX;
@@ -170,35 +171,35 @@ class Upgrade: SKScene {
         addChild(label);
     }
     func removeAds() {
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "dontShowAds");
-        NSUserDefaults.standardUserDefaults().setFloat(0, forKey: "bannerHeight");
-        NSUserDefaults.standardUserDefaults().synchronize();
+        UserDefaults.standard.set(true, forKey: "dontShowAds");
+        UserDefaults.standard.set(0, forKey: "bannerHeight");
+        UserDefaults.standard.synchronize();
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.left, duration: 2);
         
-        let scene = Upgrade(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        adMobBannerView.hidden = true;
-        scene.scaleMode = .AspectFill;
+        let scene = Upgrade(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        adMobBannerView.isHidden = true;
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     func customDifficulty() {
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "showCustomDifficulty");
-        NSUserDefaults.standardUserDefaults().synchronize();
+        UserDefaults.standard.set(true, forKey: "showCustomDifficulty");
+        UserDefaults.standard.synchronize();
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.left, duration: 2);
         
-        let scene = Upgrade(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = Upgrade(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     func goToMenuScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.right, duration: 2);
         
-        let scene = Menu(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = Menu(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }

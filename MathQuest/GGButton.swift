@@ -13,11 +13,11 @@ class GGButton: SKNode {
     var activeButton: SKSpriteNode
     var action: () -> Void
     var text: NSString = "";
-    var textColor: SKColor = SKColor.blueColor();
+    var textColor: SKColor = SKColor.blue;
     var restartLabel: SKLabelNode!;
     var soundOff: Bool = false;
     
-    init(scaleX: CGFloat, scaleY: CGFloat, defaultButtonImage: String, activeButtonImage: String, text: NSString, textColor: SKColor, buttonAction: () -> Void) {
+    init(scaleX: CGFloat, scaleY: CGFloat, defaultButtonImage: String, activeButtonImage: String, text: NSString, textColor: SKColor, buttonAction: @escaping () -> Void) {
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
         activeButton = SKSpriteNode(imageNamed: activeButtonImage)
         
@@ -28,19 +28,19 @@ class GGButton: SKNode {
         
         defaultButton.zPosition = 14;
         activeButton.zPosition = 15;
-        activeButton.hidden = true
+        activeButton.isHidden = true
         action = buttonAction
         self.text = text;
         self.textColor = textColor;
         
         super.init()
         
-        userInteractionEnabled = true
+        isUserInteractionEnabled = true
         addChild(defaultButton)
         addChild(activeButton)
         
         restartLabel = SKLabelNode(fontNamed:"ChalkboardSE-Bold");
-        restartLabel.text = text;
+        restartLabel.text = text as String;
         restartLabel.fontSize = 50*scaleY;
         restartLabel.fontColor = textColor;
         restartLabel.position.x = defaultButton.position.x;
@@ -54,41 +54,43 @@ class GGButton: SKNode {
     }
     
     #if os(iOS)
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        activeButton.hidden = false
-        defaultButton.hidden = true
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        activeButton.isHidden = false
+        defaultButton.isHidden = true
     }
 
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        var touch: UITouch = touches.allObjects[0] as UITouch
-        var location: CGPoint = touch.locationInNode(self)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch: UITouch = touches.first else { return }
+        let location: CGPoint = touch.location(in: self)
 
-        if defaultButton.containsPoint(location) {
-            activeButton.hidden = false
-            defaultButton.hidden = true
+        if defaultButton.contains(location) {
+            activeButton.isHidden = false
+            defaultButton.isHidden = true
         } else {
-            activeButton.hidden = true
-            defaultButton.hidden = false
+            activeButton.isHidden = true
+            defaultButton.isHidden = false
         }
     }
     
     func playSound(soundName: NSString) {
-        if !NSUserDefaults.standardUserDefaults().boolForKey("soundOff") {
-            runAction(SKAction.playSoundFileNamed(soundName+".wav", waitForCompletion: false));
+        if !UserDefaults.standard.bool(forKey: "soundOff") {
+            run(SKAction.playSoundFileNamed(soundName as String+".wav", waitForCompletion: false));
         }
     }
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        var touch: UITouch = touches.allObjects[0] as UITouch
-        var location: CGPoint = touch.locationInNode(self)
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch: UITouch = touches.first else { return }
+        let location: CGPoint = touch.location(in: self)
 
-        if defaultButton.containsPoint(location) {
+        if defaultButton.contains(location) {
             action()
-            playSound("Button");
+            playSound(soundName: "Button");
         }
 
-        activeButton.hidden = true
-        defaultButton.hidden = false
+        activeButton.isHidden = true
+        defaultButton.isHidden = false
     }
+    
     #else
     override func mouseDown(theEvent: NSEvent) {
         

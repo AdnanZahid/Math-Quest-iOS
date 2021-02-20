@@ -111,14 +111,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var soundOff: Bool = false;
     var adMobBannerView: GADBannerView!;
     
-    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate;
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate;
     
     func playBackgroundMusic() {
         
-        if !NSUserDefaults.standardUserDefaults().boolForKey("musicOff") {
-            var error: NSError?
-            let backgroundMusicURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("GameScene", ofType: "wav")!)
-            appDelegate.backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: backgroundMusicURL, error: &error)
+        if !UserDefaults.standard.bool(forKey: "musicOff") {
+            let backgroundMusicURL = NSURL(fileURLWithPath: Bundle.main.path(forResource: "GameScene", ofType: "wav")!)
+            appDelegate.backgroundMusicPlayer = try! AVAudioPlayer(contentsOf: backgroundMusicURL as URL)
             appDelegate.backgroundMusicPlayer.numberOfLoops = -1
             appDelegate.backgroundMusicPlayer.prepareToPlay()
             appDelegate.backgroundMusicPlayer.play()
@@ -137,49 +136,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fadeOutText(textString: NSString) {
         
-        playSound("FadeOut");
+        playSound(soundName: "FadeOut");
         let label = SKLabelNode(fontNamed:"Chalkduster");
-        label.text = textString;
+        label.text = textString as String;
         label.fontSize = 20;
-        label.fontColor = SKColor.whiteColor();
+        label.fontColor = SKColor.white;
         label.position = CGPoint(x:width/2, y:height/2);
         label.xScale = scaleX;
         label.yScale = scaleY;
         label.zPosition = 20;
         universe.addChild(label);
         
-        var flashAction: SKAction = SKAction.scaleBy(4, duration: 5);
-        label.runAction(flashAction);
-        flashAction = SKAction.fadeOutWithDuration(5);
-        label.runAction(flashAction, completion: {label.removeFromParent();});
+        var flashAction: SKAction = SKAction.scale(by: 4, duration: 5);
+        label.run(flashAction);
+        flashAction = SKAction.fadeOut(withDuration: 5);
+        label.run(flashAction, completion: {label.removeFromParent();});
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
         appDelegate.backgroundMusicPlayer.stop();
         playBackgroundMusic();
         
         effectsNode = SKEffectNode();
         let filter = CIFilter(name: "CIGaussianBlur");
-        filter.setValue(32, forKey: kCIInputRadiusKey);
+        filter?.setValue(32, forKey: kCIInputRadiusKey);
         
         effectsNode.filter = filter;
-        effectsNode.blendMode = .Alpha;
+        effectsNode.blendMode = .alpha;
         effectsNode.shouldEnableEffects = true;
         effectsNode.shouldEnableEffects = false;
         effectsNode.shouldRasterize = true;
         
-        soundOff = NSUserDefaults.standardUserDefaults().boolForKey("soundOff");
+        soundOff = UserDefaults.standard.bool(forKey: "soundOff");
         
-        width = CGRectGetMaxX(frame);
-        height = CGRectGetMaxY(frame);
+        width = frame.maxX;
+        height = frame.maxY;
         
         height -= bannerHeight;
         
         jumpHeight = height*0.04167;
         gravity = -height/200;
         
-        playerVelocity = CGFloat(NSUserDefaults.standardUserDefaults().integerForKey("difficulty")) + 2;
+        playerVelocity = CGFloat(UserDefaults.standard.integer(forKey: "difficulty")) + 2;
         
         let textureAtlas = SKTextureAtlas(named:"hero.atlas");
         let shieldAtlas = SKTextureAtlas(named:"shield.atlas");
@@ -191,9 +190,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platformGroup = SKNode();
         world.addChild(platformGroup);
         
-        physicsWorld.gravity = CGVectorMake(0, gravity);
+        physicsWorld.gravity = CGVector(dx: 0, dy: gravity);
         
-        let background = SKSpriteNode(imageNamed:backgrounds[Int(arc4random_uniform(UInt32(backgrounds.count)))] );
+        let background = SKSpriteNode(imageNamed:backgrounds[Int(arc4random_uniform(UInt32(backgrounds.count)))] as String);
         scaleX = width/background.size.width;
         scaleY = height/background.size.height;
         background.xScale = scaleX;
@@ -202,33 +201,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.zPosition = 0;
         universe.addChild(background);
         
-        parallaxify("closets", time: 0.1, z: 1);
-        parallaxify("glass", time: 0.05, z: 1);
+        parallaxify(imageName: "closets", time: 0.1, z: 1);
+        parallaxify(imageName: "glass", time: 0.05, z: 1);
         
         tacks = SKSpriteNode(imageNamed: "tackSize");
         
         for i in 1...2 {
-            appendSpriteWalking(textureAtlas, imageName: "walking"+String(i));
+            appendSpriteWalking(textureAtlas: textureAtlas, imageName: "walking"+String(i) as NSString);
         }
         
         for i in 1...4 {
-            appendSpriteFlying(textureAtlas, imageName: "flying"+String(i));
+            appendSpriteFlying(textureAtlas: textureAtlas, imageName: "flying"+String(i) as NSString);
         }
         
         for i in 1...10 {
-            appendCoins(textureAtlas, imageName: "coin"+String(i));
+            appendCoins(textureAtlas: textureAtlas, imageName: "coin"+String(i) as NSString);
         }
         
         for i in 1...10 {
-            appendShield(shieldAtlas, imageName: "shield"+String(i));
+            appendShield(textureAtlas: shieldAtlas, imageName: "shield"+String(i) as NSString);
         }
         
         for i in 1...6 {
-            appendMagnet(shieldAtlas, imageName: "magnet"+String(i));
+            appendMagnet(textureAtlas: shieldAtlas, imageName: "magnet"+String(i) as NSString);
         }
         
         let groundSprite: NSString = ground[Int(arc4random_uniform(UInt32(ground.count)))];
-        let grassGround = SKSpriteNode(imageNamed:groundSprite);
+        let grassGround = SKSpriteNode(imageNamed:groundSprite as String);
         
         let initialRandom: CGFloat = CGFloat(arc4random_uniform(maxRandom));
         
@@ -236,8 +235,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         heroSprite.position = CGPoint(x:startingX,y:startingY + initialRandom + heroSprite.size.height/2 + grassGround.size.height/2);
         heroSprite.zPosition = 10;
         universe.addChild(heroSprite);
-        heroSprite.physicsBody = SKPhysicsBody(rectangleOfSize: heroSprite.size);
-        heroSprite.physicsBody!.dynamic = true;
+        heroSprite.physicsBody = SKPhysicsBody(rectangleOf: heroSprite.size);
+        heroSprite.physicsBody!.isDynamic = true;
         heroSprite.physicsBody!.allowsRotation = false;
         heroSprite.physicsBody!.restitution = 0;
         
@@ -246,33 +245,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         heroSprite.physicsBody!.contactTestBitMask = GROUNDCATEGORY | BOOKCATEGORY | FIRECATEGORY | COINCATEGORY | NUMBERCATEGORY | SHIELDCATEGORY | MAGNETCATEGORY | TACKSCATEGORY;
         heroSprite.physicsBody?.usesPreciseCollisionDetection;
         
-        var animateAction = SKAction.animateWithTextures(spriteArrayWalking, timePerFrame: 0.1);
+        var animateAction = SKAction.animate(with: spriteArrayWalking, timePerFrame: 0.1);
         var group = SKAction.group([ animateAction ]);
-        repeatActionWalking = SKAction.repeatActionForever(group);
-        heroSprite.runAction(repeatActionWalking);
+        repeatActionWalking = SKAction.repeatForever(group);
+        heroSprite.run(repeatActionWalking);
         
-        animateAction = SKAction.animateWithTextures(spriteArrayFlying, timePerFrame: 0.1);
+        animateAction = SKAction.animate(with: spriteArrayFlying, timePerFrame: 0.1);
         group = SKAction.group([ animateAction ]);
-        repeatActionFlying = SKAction.repeatActionForever(group);
+        repeatActionFlying = SKAction.repeatForever(group);
         
         progressLabel = SKLabelNode(fontNamed:"ChalkboardSE-Bold");
         progressLabel.text = "Coins: " + String(coins) + "      Distance: " + String(meters) + " feet";
         progressLabel.fontSize = 15;
         progressLabel.fontColor = progressColor;
-        progressLabel.horizontalAlignmentMode = .Right
+        progressLabel.horizontalAlignmentMode = .right
         progressLabel.position = CGPoint(x:width-progressLabel.fontSize, y:height-2.75*progressLabel.fontSize*scaleY);
         progressLabel.zPosition = 8;
         
         universe.addChild(progressLabel);
         
         pauseButton = GGButton(scaleX: scaleX*0.15, scaleY: scaleY*0.4, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "||", textColor: gameOverColor, buttonAction: pauseGame);
-        pauseButton.position = CGPointMake(pauseButton.defaultButton.size.width/2, height-pauseButton.defaultButton.size.height/2);
+        pauseButton.position = CGPoint(x: pauseButton.defaultButton.size.width/2,
+                                       y: height-pauseButton.defaultButton.size.height/2);
         addChild(pauseButton);
         
         let top: SKNode = SKNode();
         top.position = CGPoint(x: 0, y: height - tacks.size.height*0.25);
-        top.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: width, height: tacks.size.height*0.5*scaleY));
-        top.physicsBody!.dynamic = false;
+        top.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: width, height: tacks.size.height*0.5*scaleY));
+        top.physicsBody!.isDynamic = false;
         top.physicsBody!.allowsRotation = false;
         top.physicsBody!.restitution = 3;
         top.physicsBody!.categoryBitMask = TACKSCATEGORY;
@@ -281,8 +281,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let bottom: SKNode = SKNode();
         bottom.position = CGPoint(x: 0, y: tacks.size.height*0.25);
-        bottom.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: width, height: tacks.size.height*0.5*scaleY));
-        bottom.physicsBody!.dynamic = false;
+        bottom.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: width, height: tacks.size.height*0.5*scaleY));
+        bottom.physicsBody!.isDynamic = false;
         bottom.physicsBody!.allowsRotation = false;
         bottom.physicsBody!.restitution = 1;
         bottom.physicsBody!.categoryBitMask = TACKSCATEGORY;
@@ -292,8 +292,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         left = SKNode();
         left.zPosition = 20;
         left.position = CGPoint(x: -heroSprite.size.width*2, y: height/2);
-        left.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 50, height: height));
-        left.physicsBody!.dynamic = true;
+        left.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: height));
+        left.physicsBody!.isDynamic = true;
         left.physicsBody!.mass = -100;
         left.physicsBody!.affectedByGravity = false;
         left.physicsBody!.allowsRotation = false;
@@ -304,42 +304,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         addCoins();
         
-        positionX = addPlatform(ground[Int(1+arc4random_uniform(UInt32(ground.count-1)))], numberOfBlocks: minPlatformLength + arc4random_uniform(maxPlatformLength), x: startingX, y: startingY + initialRandom);
+        positionX = addPlatform(imageName: ground[Int(1+arc4random_uniform(UInt32(ground.count-1)))], numberOfBlocks: minPlatformLength + arc4random_uniform(maxPlatformLength), x: startingX, y: startingY + initialRandom);
         for i in 0..<UInt8(ceil(scaleX)) {
             
-            positionX = addPlatform(ground[Int(1+arc4random_uniform(UInt32(ground.count-1)))], numberOfBlocks: minPlatformLength + arc4random_uniform(maxPlatformLength), x: positionX, y: startingY + CGFloat(arc4random_uniform(maxRandom)));
+            positionX = addPlatform(imageName: ground[Int(1+arc4random_uniform(UInt32(ground.count-1)))], numberOfBlocks: minPlatformLength + arc4random_uniform(maxPlatformLength), x: positionX, y: startingY + CGFloat(arc4random_uniform(maxRandom)));
             
-            positionX = addPlatform(ground[Int(1+arc4random_uniform(UInt32(ground.count-1)))], numberOfBlocks: minPlatformLength + arc4random_uniform(maxPlatformLength), x: positionX, y: startingY + CGFloat(arc4random_uniform(maxRandom)));
+            positionX = addPlatform(imageName: ground[Int(1+arc4random_uniform(UInt32(ground.count-1)))], numberOfBlocks: minPlatformLength + arc4random_uniform(maxPlatformLength), x: positionX, y: startingY + CGFloat(arc4random_uniform(maxRandom)));
         }
         physicsWorld.contactDelegate = self;
         
-        if !NSUserDefaults.standardUserDefaults().boolForKey("notFirstTime") {
-            fadeOutText("Tap anywhere to fly");
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "notFirstTime");
-            NSUserDefaults.standardUserDefaults().synchronize();
+        if !UserDefaults.standard.bool(forKey: "notFirstTime") {
+            fadeOutText(textString: "Tap anywhere to fly");
+            UserDefaults.standard.set(true, forKey: "notFirstTime");
+            UserDefaults.standard.synchronize();
         }
     }
     
     func parallaxify(imageName: NSString, time: CGFloat, z: CGFloat) {
         
-        var groundImage = SKTexture(imageNamed: imageName);
+        var groundImage = SKTexture(imageNamed: imageName as String);
         
-        var moveBackground = SKAction.moveByX(-groundImage.size().width*scaleX, y: 0, duration: NSTimeInterval(time * groundImage.size().width*scaleX));
+        var moveBackground = SKAction.moveBy(x: -groundImage.size().width*scaleX, y: 0, duration: TimeInterval(time * groundImage.size().width*scaleX));
         
-        var resetBackGround = SKAction.moveByX(groundImage.size().width*scaleX, y: 0, duration: 0.0);
+        var resetBackGround = SKAction.moveBy(x: groundImage.size().width*scaleX, y: 0, duration: 0.0);
         
-        var moveBackgoundForever = SKAction.repeatActionForever(SKAction.sequence([moveBackground, resetBackGround]));
+        var moveBackgoundForever = SKAction.repeatForever(SKAction.sequence([moveBackground, resetBackGround]));
         
-        for var i:CGFloat = 0; i<2 + frame.size.width / (groundImage.size().width*scaleX); ++i {
-            let sprite = SKSpriteNode(texture: groundImage);
-            sprite.xScale = scaleX;
-            sprite.yScale = scaleY;
-            sprite.zPosition = z;
-            sprite.position = CGPointMake(i * sprite.size.width, sprite.size.height / 2);
-            sprite.runAction(moveBackgoundForever);
-            universe.addChild(sprite);
-            parallaxArray.append(sprite);
-        }
+//        for var i:CGFloat = 0; i<2 + frame.size.width / (groundImage.size().width*scaleX); ++i {
+//            let sprite = SKSpriteNode(texture: groundImage);
+//            sprite.xScale = scaleX;
+//            sprite.yScale = scaleY;
+//            sprite.zPosition = z;
+//            sprite.position = CGPointMake(i * sprite.size.width, sprite.size.height / 2);
+//            sprite.runAction(moveBackgoundForever);
+//            universe.addChild(sprite);
+//            parallaxArray.append(sprite);
+//        }
     }
     func addPlatform(imageName: NSString, numberOfBlocks: UInt32, x: CGFloat, y: CGFloat) -> CGFloat {
         
@@ -347,7 +347,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var obstaclePositionX: UInt32 = arc4random_uniform(numberOfBlocks);
         
         for i in 0...numberOfBlocks {
-            var grassGround: SKSpriteNode = SKSpriteNode(imageNamed:imageName);
+            var grassGround: SKSpriteNode = SKSpriteNode(imageNamed:imageName as String);
             
             grassGround.position = CGPoint(x:X, y:y);
             
@@ -355,8 +355,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             grassGround.zPosition = 10;
             platformGroup.addChild(grassGround);
             
-            grassGround.physicsBody = SKPhysicsBody(rectangleOfSize: grassGround.size);
-            grassGround.physicsBody!.dynamic = false;
+            grassGround.physicsBody = SKPhysicsBody(rectangleOf: grassGround.size);
+            grassGround.physicsBody!.isDynamic = false;
             
             grassGround.physicsBody!.restitution = 0;
             if imageName != "book" {
@@ -376,55 +376,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     obstacle = SKSpriteNode(imageNamed: "protactor_obstacle");
                     obstacle.position = CGPoint(x:X, y:grassGround.position.y + grassGround.size.height/4 + obstacle.size.height/2);
                     
-                    moveObstacleForward = SKAction.moveByX(obstacle.size.width*0.75, y: 0, duration: 0.5);
-                    moveObstacleBackward = SKAction.moveByX(-obstacle.size.width*0.75, y: 0, duration: 0.5);
+                    moveObstacleForward = SKAction.moveBy(x: obstacle.size.width*0.75, y: 0, duration: 0.5);
+                    moveObstacleBackward = SKAction.moveBy(x: -obstacle.size.width*0.75, y: 0, duration: 0.5);
                     
                     var offsetX: CGFloat = obstacle.frame.size.width*obstacle.anchorPoint.x;
                     var offsetY: CGFloat = obstacle.frame.size.height*obstacle.anchorPoint.y;
-                    var path: CGMutablePathRef = CGPathCreateMutable();
-                    CGPathMoveToPoint(path, nil, 0 - offsetX, 0 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 38 - offsetX, 0 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 38 - offsetX, 6 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 36 - offsetX, 10 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 30 - offsetX, 15 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 25 - offsetX, 19 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 19 - offsetX, 19 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 11 - offsetX, 18 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 5 - offsetX, 14 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 1 - offsetX, 7 - offsetY);
-                    CGPathCloseSubpath(path);
+                    var path: CGMutablePath = CGMutablePath();
+//                    CGPathMoveToPoint(path, nil, 0 - offsetX, 0 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 38 - offsetX, 0 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 38 - offsetX, 6 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 36 - offsetX, 10 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 30 - offsetX, 15 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 25 - offsetX, 19 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 19 - offsetX, 19 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 11 - offsetX, 18 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 5 - offsetX, 14 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 1 - offsetX, 7 - offsetY);
+                    path.closeSubpath();
                     
-                    obstacle.physicsBody = SKPhysicsBody(polygonFromPath: path);
+                    obstacle.physicsBody = SKPhysicsBody(polygonFrom: path);
                 }
                 else {
                     obstacle = SKSpriteNode(imageNamed: "pencil_obstacle");
                     obstacle.position = CGPoint(x:X, y:grassGround.position.y + grassGround.size.height);
                     
-                    moveObstacleForward = SKAction.moveByX(0, y: obstacle.size.height*0.15, duration: 0.25);
-                    moveObstacleBackward = SKAction.moveByX(0, y: -obstacle.size.height*0.15, duration: 0.25);
+                    moveObstacleForward = SKAction.moveBy(x: 0, y: obstacle.size.height*0.15, duration: 0.25);
+                    moveObstacleBackward = SKAction.moveBy(x: 0, y: -obstacle.size.height*0.15, duration: 0.25);
                     
                     var offsetX: CGFloat = obstacle.frame.size.width*obstacle.anchorPoint.x;
                     var offsetY: CGFloat = obstacle.frame.size.height*obstacle.anchorPoint.y;
-                    var path: CGMutablePathRef = CGPathCreateMutable();
-                    CGPathMoveToPoint(path, nil, 0 - offsetX, 0 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 4 - offsetX, 0 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 4 - offsetX, 25 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 2 - offsetX, 30 - offsetY);
-                    CGPathAddLineToPoint(path, nil, 0 - offsetX, 25 - offsetY);
-                    CGPathCloseSubpath(path);
+                    var path: CGMutablePath = CGMutablePath();
+//                    CGPathMoveToPoint(path, nil, 0 - offsetX, 0 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 4 - offsetX, 0 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 4 - offsetX, 25 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 2 - offsetX, 30 - offsetY);
+//                    CGPathAddLineToPoint(path, nil, 0 - offsetX, 25 - offsetY);
+                    path.closeSubpath();
                     
-                    obstacle.physicsBody = SKPhysicsBody(polygonFromPath: path);
+                    obstacle.physicsBody = SKPhysicsBody(polygonFrom: path);
                 }
                 
-                var moveObstacleForever: SKAction = SKAction.repeatActionForever(SKAction.sequence([moveObstacleForward, moveObstacleBackward, moveObstacleBackward, moveObstacleForward]));
-                obstacle.runAction(moveObstacleForever);
-                obstacle.zPosition = 6;
-                world.addChild(obstacle);
-                obstacle.physicsBody!.dynamic = false;
-                obstacle.physicsBody!.restitution = 0;
-                obstacle.physicsBody!.categoryBitMask = FIRECATEGORY;
-                obstacle.physicsBody!.contactTestBitMask = COINCATEGORY | NUMBERCATEGORY | SHIELDCATEGORY | MAGNETCATEGORY | HEROCATEGORY | LEFTCATEGORY;
-                obstacle.physicsBody!.collisionBitMask = HEROCATEGORY | LEFTCATEGORY;
+//                var moveObstacleForever: SKAction = SKAction.repeatForever(SKAction.sequence([moveObstacleForward, moveObstacleBackward, moveObstacleBackward, moveObstacleForward]));
+//                obstacle.run(moveObstacleForever);
+//                obstacle.zPosition = 6;
+//                world.addChild(obstacle);
+//                obstacle.physicsBody!.isDynamic = false;
+//                obstacle.physicsBody!.restitution = 0;
+//                obstacle.physicsBody!.categoryBitMask = FIRECATEGORY;
+//                obstacle.physicsBody!.contactTestBitMask = COINCATEGORY | NUMBERCATEGORY | SHIELDCATEGORY | MAGNETCATEGORY | HEROCATEGORY | LEFTCATEGORY;
+//                obstacle.physicsBody!.collisionBitMask = HEROCATEGORY | LEFTCATEGORY;
             }
         }
         
@@ -432,30 +432,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func appendSpriteWalking(textureAtlas: SKTextureAtlas, imageName: NSString) {
-        spriteArrayWalking.append(textureAtlas.textureNamed(imageName));
+        spriteArrayWalking.append(textureAtlas.textureNamed(imageName as String));
     }
     
     func appendSpriteFlying(textureAtlas: SKTextureAtlas, imageName: NSString) {
-        spriteArrayFlying.append(textureAtlas.textureNamed(imageName));
+        spriteArrayFlying.append(textureAtlas.textureNamed(imageName as String));
     }
     
     func appendCoins(textureAtlas: SKTextureAtlas, imageName: NSString) {
-        coinsArray.append(textureAtlas.textureNamed(imageName));
+        coinsArray.append(textureAtlas.textureNamed(imageName as String));
     }
     
     func appendShield(textureAtlas: SKTextureAtlas, imageName: NSString) {
-        shieldArray.append(textureAtlas.textureNamed(imageName));
+        shieldArray.append(textureAtlas.textureNamed(imageName as String));
     }
     
     func appendMagnet(textureAtlas: SKTextureAtlas, imageName: NSString) {
-        magnetArray.append(textureAtlas.textureNamed(imageName));
+        magnetArray.append(textureAtlas.textureNamed(imageName as String));
     }
     
     func rotateForever(sprite: SKSpriteNode){
         let angle : CGFloat = CGFloat(M_PI);
-        let rotate = SKAction.rotateByAngle(angle, duration: 0.5);
-        let repeatAction = SKAction.repeatActionForever(rotate);
-        sprite.runAction(repeatAction);
+        let rotate = SKAction.rotate(byAngle: angle, duration: 0.5);
+        let repeatAction = SKAction.repeatForever(rotate);
+        sprite.run(repeatAction);
     }
     
     func fireRulers(x: CGFloat) {
@@ -466,7 +466,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var secondY: UInt32 = arc4random_uniform(UInt32(height));
         var yArray = Array<UInt32>();
         
-        while abs(firstY - secondY) < minDifferenceBetweenRulers/10 {
+        while abs(Int32(firstY - secondY)) < minDifferenceBetweenRulers/10 {
             firstY = arc4random_uniform(UInt32(sizeRuler.size.height));
             secondY = arc4random_uniform(UInt32(height - sizeRuler.size.height));
         }
@@ -481,9 +481,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ruler.position = CGPoint(x:x,y:CGFloat(yArray[i]));
             ruler.zPosition = 11;
             world.addChild(ruler);
-            rotateForever(ruler);
-            ruler.physicsBody = SKPhysicsBody(rectangleOfSize: ruler.size);
-            ruler.physicsBody!.dynamic = false;
+            rotateForever(sprite: ruler);
+            ruler.physicsBody = SKPhysicsBody(rectangleOf: ruler.size);
+            ruler.physicsBody!.isDynamic = false;
             ruler.physicsBody!.allowsRotation = false;
             ruler.physicsBody!.restitution = 0;
             ruler.physicsBody!.categoryBitMask = FIRECATEGORY;
@@ -497,16 +497,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func goToGameScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.left, duration: 2);
         
-        let scene = MathScene(size: size, score: score, coins: coins, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = MathScene(size: size, score: score, coins: coins, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     
     #if os(iOS)
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         touchLeft = true;
     }
     #else
@@ -536,25 +537,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(finalmeters);
         
         buttonHome = GGButton(scaleX: 0.5, scaleY: 0.5, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Home", textColor: gameOverColor, buttonAction: goToHomeScene);
-        buttonHome.position = CGPointMake(width/2-buttonHome.defaultButton.size.width, height/2-buttonHome.defaultButton.size.height/2);
+        buttonHome.position = CGPoint(x: width/2-buttonHome.defaultButton.size.width,
+                                      y: height/2-buttonHome.defaultButton.size.height/2);
         addChild(buttonHome);
         
         buttonResume = GGButton(scaleX: 0.5, scaleY: 0.5, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Resume", textColor: gameOverColor, buttonAction: resumeGame);
-        buttonResume.position = CGPointMake(width/2, height/2-buttonResume.defaultButton.size.height/2);
+        buttonResume.position = CGPoint(x: width/2,
+                                        y: height/2-buttonResume.defaultButton.size.height/2);
         addChild(buttonResume);
         
         buttonRetry = GGButton(scaleX: 0.5, scaleY: 0.5, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Retry", textColor: gameOverColor, buttonAction: retry);
-        buttonRetry.position = CGPointMake(width/2+buttonRetry.defaultButton.size.width, height/2-buttonRetry.defaultButton.size.height/2);
+        buttonRetry.position = CGPoint(x: width/2+buttonRetry.defaultButton.size.width,
+                                       y: height/2-buttonRetry.defaultButton.size.height/2);
         addChild(buttonRetry);
         
         pauseButton.removeFromParent();
-        paused = true;
+        isPaused = true;
     }
     func resumeGame() {
         
         appDelegate.backgroundMusicPlayer.play();
         
-        paused = false;
+        isPaused = false;
         
         finalmeters.removeFromParent();
         buttonHome.removeFromParent();
@@ -567,26 +571,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func retry() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.left, duration: 2);
         
-        let scene = GameScene(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = GameScene(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     func goToHomeScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.right, duration: 2);
         
-        let scene = Home(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = Home(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     
     func playSound(soundName: NSString) {
         if !soundOff {
-            runAction(SKAction.playSoundFileNamed(soundName+".wav", waitForCompletion: false));
+            run(SKAction.playSoundFileNamed(soundName as String+".wav", waitForCompletion: false));
         }
     }
     
@@ -607,12 +611,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if firstBody.categoryBitMask == HEROCATEGORY {
             if secondBody.categoryBitMask == FIRECATEGORY || secondBody.categoryBitMask == TACKSCATEGORY {
                 if !shield && !magnet {
-                    playSound("Died");
+                    playSound(soundName: "Died");
                     
                     gameOver = true;
                 }
                 else if shield {
-                    playSound("Pop");
+                    playSound(soundName: "Pop");
                     
                     heroSprite.physicsBody!.velocity.dy = 0;
                     heroSprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: jumpHeight/3));
@@ -621,7 +625,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     shieldSprite.removeFromParent();
                 }
                 else if magnet {
-                    playSound("Pop");
+                    playSound(soundName: "Pop");
                     
                     heroSprite.physicsBody!.velocity.dy = 0;
                     heroSprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: jumpHeight/3));
@@ -629,14 +633,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     magnet = false;
                     magnetSprite.removeFromParent();
                     
-                    var animateAction: SKAction = SKAction.animateWithTextures(coinsArray, timePerFrame: 0.1);
+                    var animateAction: SKAction = SKAction.animate(with: coinsArray, timePerFrame: 0.1);
                     var group: SKAction = SKAction.group([ animateAction ]);
-                    coinAction = SKAction.repeatActionForever(group);
+                    coinAction = SKAction.repeatForever(group);
                     
                     for singleCoin in coinSpriteArray {
                         singleCoin.physicsBody?.usesPreciseCollisionDetection = false;
                         singleCoin.removeAllActions();
-                        singleCoin.runAction(coinAction);
+                        singleCoin.run(coinAction);
                     }
                 }
                 if secondBody.categoryBitMask == FIRECATEGORY {
@@ -646,33 +650,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             else if secondBody.categoryBitMask == GROUNDCATEGORY {
                 heroSprite.removeAllActions();
-                heroSprite.runAction(repeatActionWalking);
+                heroSprite.run(repeatActionWalking);
             }
                 
             else if secondBody.categoryBitMask == BOOKCATEGORY {
                 heroSprite.removeAllActions();
-                heroSprite.runAction(repeatActionWalking);
-                secondBody.dynamic = true;
+                heroSprite.run(repeatActionWalking);
+                secondBody.isDynamic = true;
             }
                 
             else if secondBody.categoryBitMask == COINCATEGORY {
-                coins++;
+                coins += 1;
                 secondBody.node?.removeFromParent();
                 
-                playSound("Coin");
+                playSound(soundName: "Coin");
             }
                 
             else if secondBody.categoryBitMask == NUMBERCATEGORY {
                 
                 let description = secondBody.node?.description;
-                whichNumber = description!.componentsSeparatedByString("'")[3];
+                whichNumber = description!.components(separatedBy: "'")[3] as NSString;
                 
                 secondBody.node?.removeFromParent();
             }
                 
             else if secondBody.categoryBitMask == SHIELDCATEGORY {
                 
-                playSound("Shield");
+                playSound(soundName: "Shield");
                 
                 if magnetSprite != nil {
                     magnetSprite.removeFromParent();
@@ -684,10 +688,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 shield = true;
                 shieldSprite = SKSpriteNode(texture: shieldArray[0]);
-                var animateAction = SKAction.animateWithTextures(shieldArray, timePerFrame: 0.1);
+                var animateAction = SKAction.animate(with: shieldArray, timePerFrame: 0.1);
                 var group = SKAction.group([ animateAction ]);
-                shieldAction = SKAction.repeatActionForever(group);
-                shieldSprite.runAction(shieldAction);
+                shieldAction = SKAction.repeatForever(group);
+                shieldSprite.run(shieldAction);
                 
                 shieldSprite.position = heroSprite.position;
                 
@@ -699,7 +703,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             else if secondBody.categoryBitMask == MAGNETCATEGORY {
                 
-                playSound("Magnet");
+                playSound(soundName: "Magnet");
                 
                 if shieldSprite != nil {
                     shieldSprite.removeFromParent();
@@ -711,10 +715,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 magnet = true;
                 magnetSprite = SKSpriteNode(texture: magnetArray[0]);
-                var animateAction = SKAction.animateWithTextures(magnetArray, timePerFrame: 0.1);
+                var animateAction = SKAction.animate(with: magnetArray, timePerFrame: 0.1);
                 var group = SKAction.group([ animateAction ]);
-                magnetAction = SKAction.repeatActionForever(group);
-                magnetSprite.runAction(magnetAction);
+                magnetAction = SKAction.repeatForever(group);
+                magnetSprite.run(magnetAction);
                 
                 magnetSprite.position = heroSprite.position;
                 
@@ -745,15 +749,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             coinSprite.position = CGPoint(x:positionX + 3*coinSprite.size.width + CGFloat(arc4random_uniform(UInt32(width/8))),y:coinSprite.size.height + CGFloat(arc4random_uniform(UInt32(height-2*coinSprite.size.height))));
             
-            var animateAction: SKAction = SKAction.animateWithTextures(coinsArray, timePerFrame: 0.1);
+            let animateAction: SKAction = SKAction.animate(with: coinsArray, timePerFrame: 0.1);
             var group: SKAction = SKAction.group([ animateAction ]);
-            coinAction = SKAction.repeatActionForever(group);
-            coinSprite.runAction(coinAction);
+            coinAction = SKAction.repeatForever(group);
+            coinSprite.run(coinAction);
             coinSprite.zPosition = 12;
             world.addChild(coinSprite);
             
-            coinSprite.physicsBody = SKPhysicsBody(rectangleOfSize: coinSprite.size);
-            coinSprite.physicsBody!.dynamic = true;
+            coinSprite.physicsBody = SKPhysicsBody(rectangleOf: coinSprite.size);
+            coinSprite.physicsBody!.isDynamic = true;
             coinSprite.physicsBody!.mass = -100;
             coinSprite.physicsBody!.affectedByGravity = false;
             coinSprite.physicsBody!.allowsRotation = false;
@@ -768,15 +772,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addPositiveNumber() {
         
-        let numberSprite: SKSpriteNode = SKSpriteNode(imageNamed: positiveNumbers[Int(arc4random_uniform(UInt32(positiveNumbers.count)))]);
+        let numberSprite: SKSpriteNode = SKSpriteNode(imageNamed: positiveNumbers[Int(arc4random_uniform(UInt32(positiveNumbers.count)))] as String);
         
         numberSprite.position = CGPoint(x:positionX + CGFloat(arc4random_uniform(UInt32(width/8))),y:numberSprite.size.height + CGFloat(arc4random_uniform(UInt32(height-2*numberSprite.size.height))));
         
         numberSprite.zPosition = 12;
         world.addChild(numberSprite);
         
-        numberSprite.physicsBody = SKPhysicsBody(rectangleOfSize: numberSprite.size);
-        numberSprite.physicsBody!.dynamic = true;
+        numberSprite.physicsBody = SKPhysicsBody(rectangleOf: numberSprite.size);
+        numberSprite.physicsBody!.isDynamic = true;
         numberSprite.physicsBody!.mass = -100;
         numberSprite.physicsBody!.affectedByGravity = false;
         numberSprite.physicsBody!.allowsRotation = false;
@@ -788,15 +792,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addNegativeNumber() {
         
-        let numberSprite: SKSpriteNode = SKSpriteNode(imageNamed: negativeNumbers[Int(arc4random_uniform(UInt32(negativeNumbers.count)))]);
+        let numberSprite: SKSpriteNode = SKSpriteNode(imageNamed: negativeNumbers[Int(arc4random_uniform(UInt32(negativeNumbers.count)))] as String);
         
         numberSprite.position = CGPoint(x:positionX + CGFloat(arc4random_uniform(UInt32(width/8))),y:numberSprite.size.height + CGFloat(arc4random_uniform(UInt32(height-2*numberSprite.size.height))));
         
         numberSprite.zPosition = 12;
         world.addChild(numberSprite);
         
-        numberSprite.physicsBody = SKPhysicsBody(rectangleOfSize: numberSprite.size);
-        numberSprite.physicsBody!.dynamic = true;
+        numberSprite.physicsBody = SKPhysicsBody(rectangleOf: numberSprite.size);
+        numberSprite.physicsBody!.isDynamic = true;
         numberSprite.physicsBody!.mass = -100;
         numberSprite.physicsBody!.affectedByGravity = false;
         numberSprite.physicsBody!.allowsRotation = false;
@@ -809,18 +813,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addShield() {
         
         let shieldSprite = SKSpriteNode(texture: shieldArray[0]);
-        var animateAction = SKAction.animateWithTextures(shieldArray, timePerFrame: 0.1);
-        var group = SKAction.group([ animateAction ]);
-        shieldAction = SKAction.repeatActionForever(group);
-        shieldSprite.runAction(shieldAction);
+        let animateAction = SKAction.animate(with: shieldArray, timePerFrame: 0.1);
+        let group = SKAction.group([ animateAction ]);
+        shieldAction = SKAction.repeatForever(group);
+        shieldSprite.run(shieldAction);
         
         shieldSprite.position = CGPoint(x:positionX + CGFloat(arc4random_uniform(UInt32(width/8))),y:shieldSprite.size.height + CGFloat(arc4random_uniform(UInt32(height-2*shieldSprite.size.height))));
         
         shieldSprite.zPosition = 12;
         world.addChild(shieldSprite);
         
-        shieldSprite.physicsBody = SKPhysicsBody(rectangleOfSize: shieldSprite.size);
-        shieldSprite.physicsBody!.dynamic = true;
+        shieldSprite.physicsBody = SKPhysicsBody(rectangleOf: shieldSprite.size);
+        shieldSprite.physicsBody!.isDynamic = true;
         shieldSprite.physicsBody!.mass = -100;
         shieldSprite.physicsBody!.affectedByGravity = false;
         shieldSprite.physicsBody!.allowsRotation = false;
@@ -834,18 +838,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addMagnet() {
         
         let shieldSprite = SKSpriteNode(texture: magnetArray[0]);
-        var animateAction = SKAction.animateWithTextures(magnetArray, timePerFrame: 0.1);
-        var group = SKAction.group([ animateAction ]);
-        shieldAction = SKAction.repeatActionForever(group);
-        shieldSprite.runAction(shieldAction);
+        let animateAction = SKAction.animate(with: magnetArray, timePerFrame: 0.1);
+        let group = SKAction.group([ animateAction ]);
+        shieldAction = SKAction.repeatForever(group);
+        shieldSprite.run(shieldAction);
         
         shieldSprite.position = CGPoint(x:positionX + CGFloat(arc4random_uniform(UInt32(width/8))),y:shieldSprite.size.height + CGFloat(arc4random_uniform(UInt32(height-2*shieldSprite.size.height))));
         
         shieldSprite.zPosition = 9;
         world.addChild(shieldSprite);
         
-        shieldSprite.physicsBody = SKPhysicsBody(rectangleOfSize: shieldSprite.size);
-        shieldSprite.physicsBody!.dynamic = true;
+        shieldSprite.physicsBody = SKPhysicsBody(rectangleOf: shieldSprite.size);
+        shieldSprite.physicsBody!.isDynamic = true;
         shieldSprite.physicsBody!.mass = -100;
         shieldSprite.physicsBody!.affectedByGravity = false;
         shieldSprite.physicsBody!.allowsRotation = false;
@@ -858,22 +862,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func rememberYourScore() {
         showScore = false;
-        if !NSUserDefaults.standardUserDefaults().boolForKey("notFirstTimeRememberScore") {
-            fadeOutText("Remember your score!");
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "notFirstTimeRememberScore");
-            NSUserDefaults.standardUserDefaults().synchronize();
+        if !UserDefaults.standard.bool(forKey: "notFirstTimeRememberScore") {
+            fadeOutText(textString: "Remember your score!");
+            UserDefaults.standard.set(true, forKey: "notFirstTimeRememberScore");
+            UserDefaults.standard.synchronize();
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: CFTimeInterval) {
         
-        if !paused {
+        if !isPaused {
             if !gameOver {
                 
                 if touchLeft {
                     touchLeft = false;
                     heroSprite.removeAllActions();
-                    heroSprite.runAction(repeatActionFlying);
+                    heroSprite.run(repeatActionFlying);
                     heroSprite.physicsBody!.velocity.dy = 0;
                     heroSprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: jumpHeight));
                 }
@@ -884,17 +888,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 else if magnet {
                     magnetSprite.position = heroSprite.position;
                     
-                    var moveTowardsPlayer = SKAction.moveToY(heroSprite.position.y, duration: 0.1);
+                    var moveTowardsPlayer = SKAction.moveTo(y: heroSprite.position.y, duration: 0.1);
                     
                     for singleCoin in coinSpriteArray {
                         singleCoin.physicsBody?.usesPreciseCollisionDetection = true;
-                        singleCoin.runAction(moveTowardsPlayer);
+                        singleCoin.run(moveTowardsPlayer);
                     }
                     
-                    moveTowardsPlayer = SKAction.moveToX(heroSprite.position.x, duration: 10);
+                    moveTowardsPlayer = SKAction.moveTo(x: heroSprite.position.x, duration: 10);
                     for singleCoin in coinSpriteArray {
                         singleCoin.physicsBody?.usesPreciseCollisionDetection = true;
-                        singleCoin.runAction(moveTowardsPlayer);
+                        singleCoin.run(moveTowardsPlayer);
                     }
                 }
                 
@@ -907,64 +911,64 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 distanceMoved += playerVelocity;
                 
                 if whichNumber == "plus1" {
-                    playSound("PositiveNumber");
+                    playSound(soundName: "PositiveNumber");
                     score += 1;
                     rememberYourScore();
                 }
                 else if whichNumber == "plus10" {
-                    playSound("PositiveNumber");
+                    playSound(soundName: "PositiveNumber");
                     score += 10;
                     rememberYourScore();
                 }
                 else if whichNumber == "plus100" {
-                    playSound("PositiveNumber");
+                    playSound(soundName: "PositiveNumber");
                     score += 100;
                     rememberYourScore();
                 }
                 else if whichNumber == "minus1" {
-                    playSound("NegativeNumber");
+                    playSound(soundName: "NegativeNumber");
                     if score > 0 {
                         score -= 1;
                     }
                     rememberYourScore();
                 }
                 else if whichNumber == "minus10" {
-                    playSound("NegativeNumber");
+                    playSound(soundName: "NegativeNumber");
                     if score > 9 {
                         score -= 10;
                     }
                     rememberYourScore();
                 }
                 else if whichNumber == "minus100" {
-                    playSound("NegativeNumber");
+                    playSound(soundName: "NegativeNumber");
                     if score > 99 {
                         score -= 100;
                     }
                     rememberYourScore();
                 }
                 else if whichNumber == "multiply10" {
-                    playSound("PositiveNumber");
+                    playSound(soundName: "PositiveNumber");
                     score *= 10;
                     rememberYourScore();
                 }
                 else if whichNumber == "multiply100" {
-                    playSound("PositiveNumber");
+                    playSound(soundName: "PositiveNumber");
                     score *= 100;
                     rememberYourScore();
                 }
                 else if whichNumber == "divide10" {
-                    playSound("NegativeNumber");
+                    playSound(soundName: "NegativeNumber");
                     score /= 10;
                     rememberYourScore();
                 }
                 else if whichNumber == "divide100" {
-                    playSound("NegativeNumber");
+                    playSound(soundName: "NegativeNumber");
                     score /= 100;
                     rememberYourScore();
                 }
                 else if whichNumber == "showScore" {
                     showScore = true;
-                    fadeOutText("Score: "+String(score));
+                    fadeOutText(textString: "Score: "+String(score) as NSString);
                 }
                 whichNumber = "";
                 
@@ -977,21 +981,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if distanceMoved > width/2 && platformGroup.children.count <= Int(maxPlatformLength*3)*Int(ceil(scaleX)) {
                     playerVelocity += 0.01;
                     distanceMoved = 0;
-                    meters++;
-                    timeSinceRuler++;
-                    timeSinceShield++;
+                    meters += 1;
+                    timeSinceRuler += 1;
+                    timeSinceShield += 1;
                     
                     addObstacles = true;
                     
                     addCoins();
                     for i in 0..<UInt8(ceil(scaleX)) {
-                        positionX = addPlatform(ground[Int(arc4random_uniform(UInt32(ground.count)))], numberOfBlocks: minPlatformLength + arc4random_uniform(maxPlatformLength), x: positionX, y: startingY + CGFloat(arc4random_uniform(maxRandom)));
+                        positionX = addPlatform(imageName: ground[Int(arc4random_uniform(UInt32(ground.count)))], numberOfBlocks: minPlatformLength + arc4random_uniform(maxPlatformLength), x: positionX, y: startingY + CGFloat(arc4random_uniform(maxRandom)));
                     }
                     
-                    if !NSUserDefaults.standardUserDefaults().boolForKey("notFirstTimeGoldenNumbers") {
-                        fadeOutText("Collect golden numbers");
-                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "notFirstTimeGoldenNumbers");
-                        NSUserDefaults.standardUserDefaults().synchronize();
+                    if !UserDefaults.standard.bool(forKey: "notFirstTimeGoldenNumbers") {
+                        fadeOutText(textString: "Collect golden numbers");
+                        UserDefaults.standard.set(true, forKey: "notFirstTimeGoldenNumbers");
+                        UserDefaults.standard.synchronize();
                     }
                     
                     if score >= 100 {
@@ -1024,7 +1028,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     if timeSinceRuler >= 3 {
                         timeSinceRuler = 0;
-                        fireRulers(positionX+width);
+                        fireRulers(x: positionX+width);
                     }
                 }
             }
@@ -1051,7 +1055,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     addChild(finalmeters);
                     
                     var button: GGButton = GGButton(scaleX: 1, scaleY: 1, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Math", textColor: gameOverColor, buttonAction: goToGameScene);
-                    button.position = CGPointMake(width/2, height/2-button.defaultButton.size.height/2);
+                    button.position = CGPoint(x: width/2,
+                                              y: height/2-button.defaultButton.size.height/2);
                     addChild(button);
                     
                     executed = true;

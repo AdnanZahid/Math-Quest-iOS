@@ -36,7 +36,7 @@ class MathScene: SKScene {
     
     var button: GGButton!;
     var buttonColor: SKColor = SKColor(red: 0, green: 0.4784313725, blue: 1, alpha: 0.5);
-    let white = SKColor.whiteColor();
+    let white = SKColor.white;
     
     var scaleX: CGFloat = 0;
     var scaleY: CGFloat = 0;
@@ -52,7 +52,7 @@ class MathScene: SKScene {
     var bannerHeight: CGFloat = 0;
     var adMobBannerView: GADBannerView!;
     
-    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate;
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate;
     var backgroundMusicPlayer: AVAudioPlayer!;
     
     var gcEnabled: Bool = false;
@@ -60,10 +60,10 @@ class MathScene: SKScene {
     
     func playBackgroundMusic() {
         
-        if !NSUserDefaults.standardUserDefaults().boolForKey("musicOff") {
+        if !UserDefaults.standard.bool(forKey: "musicOff") {
             var error: NSError?
-            let backgroundMusicURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("MathScene", ofType: "wav")!)
-            appDelegate.backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: backgroundMusicURL, error: &error)
+            let backgroundMusicURL = NSURL(fileURLWithPath: Bundle.main.path(forResource: "MathScene", ofType: "wav")!)
+            appDelegate.backgroundMusicPlayer = try! AVAudioPlayer(contentsOf: backgroundMusicURL as URL)
             appDelegate.backgroundMusicPlayer.numberOfLoops = -1
             appDelegate.backgroundMusicPlayer.prepareToPlay()
             appDelegate.backgroundMusicPlayer.play()
@@ -74,29 +74,29 @@ class MathScene: SKScene {
         var sScore = GKScore(leaderboardIdentifier: leaderboardID)
         sScore.value = Int64(sum)
         
-        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.local
         
-        GKScore.reportScores([sScore], withCompletionHandler: { (error: NSError!) -> Void in })
+//        GKScore.reportScores([sScore], withCompletionHandler: { (error: NSError!) -> Void in })
         
     }
     func authenticateLocalPlayer() {
-        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.local
         
         localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-            if((ViewController) != nil) {
+            if let ViewController = ViewController {
                 // 1 Show login if player is not logged in
-                self.view?.window?.rootViewController?.presentViewController(ViewController, animated: true, completion: nil)
-            } else if (localPlayer.authenticated) {
+                self.view?.window?.rootViewController?.present(ViewController, animated: true, completion: nil)
+            } else if (localPlayer.isAuthenticated) {
                 // 2 Player is already euthenticated & logged in, load game center
                 self.gcEnabled = true
                 
                 // Get the default leaderboard ID
-                localPlayer.loadDefaultLeaderboardIdentifierWithCompletionHandler({ (leaderboardIdentifer: String!, error: NSError!) -> Void in
-                    if error != nil {
-                    } else {
-                        self.gcDefaultLeaderBoard = leaderboardIdentifer
-                    }
-                })
+//                localPlayer.loadDefaultLeaderboardIdentifierWithCompletionHandler({ (leaderboardIdentifer: String!, error: NSError!) -> Void in
+//                    if error != nil {
+//                    } else {
+//                        self.gcDefaultLeaderBoard = leaderboardIdentifer
+//                    }
+//                })
                 
                 
             } else {
@@ -124,25 +124,25 @@ class MathScene: SKScene {
         self.adMobBannerView = bannerView;
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        soundOff = NSUserDefaults.standardUserDefaults().boolForKey("soundOff");
+        soundOff = UserDefaults.standard.bool(forKey: "soundOff");
         
         appDelegate.backgroundMusicPlayer.stop();
         playBackgroundMusic();
         
         effectsNode = SKEffectNode();
         let filter = CIFilter(name: "CIGaussianBlur");
-        filter.setValue(32, forKey: kCIInputRadiusKey);
+        filter?.setValue(32, forKey: kCIInputRadiusKey);
         
         effectsNode.filter = filter;
-        effectsNode.blendMode = .Alpha;
+        effectsNode.blendMode = .alpha;
         effectsNode.shouldEnableEffects = true;
         effectsNode.shouldEnableEffects = false;
         effectsNode.shouldRasterize = true;
         
-        width = CGRectGetMaxX(frame);
-        height = CGRectGetMaxY(frame);
+        width = frame.maxX;
+        height = frame.maxY;
         
         height -= bannerHeight;
         
@@ -161,7 +161,7 @@ class MathScene: SKScene {
         universe.addChild(background);
         
         for i in 1...2 {
-            appendSpriteWalking(textureAtlas, imageName: "walking"+String(i));
+            appendSpriteWalking(textureAtlas: textureAtlas, imageName: "walking"+String(i) as NSString);
         }
         
         heroSprite = SKSpriteNode(texture:spriteArrayWalking[0]);
@@ -171,10 +171,10 @@ class MathScene: SKScene {
         heroSprite.zPosition = 2;
         universe.addChild(heroSprite);
         
-        var animateAction = SKAction.animateWithTextures(spriteArrayWalking, timePerFrame: 1);
+        var animateAction = SKAction.animate(with: spriteArrayWalking, timePerFrame: 1);
         var group = SKAction.group([ animateAction ]);
-        repeatActionWalking = SKAction.repeatActionForever(group);
-        heroSprite.runAction(repeatActionWalking);
+        repeatActionWalking = SKAction.repeatForever(group);
+        heroSprite.run(repeatActionWalking);
         
         progressLabel = SKLabelNode(fontNamed:"Chalkduster");
         progressLabel.xScale = scaleX;
@@ -182,7 +182,7 @@ class MathScene: SKScene {
         progressLabel.text = "Coins: " + String(coins);
         progressLabel.fontSize = 15;
         progressLabel.fontColor = white;
-        progressLabel.horizontalAlignmentMode = .Right
+        progressLabel.horizontalAlignmentMode = .right
         progressLabel.position = CGPoint(x:width-3*progressLabel.fontSize*scaleX, y:height-3*progressLabel.fontSize*scaleY);
         progressLabel.zPosition = 1;
         universe.addChild(progressLabel);
@@ -192,11 +192,13 @@ class MathScene: SKScene {
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
         button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(3*button.defaultButton.size.width*scaleX, height - button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: 3*button.defaultButton.size.width*scaleX,
+                                  y: height - button.defaultButton.size.height*scaleY - yShift);
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.3, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "8", textColor: buttonColor, buttonAction: numberPressed8);
-        button.position = CGPointMake(2*button.defaultButton.size.width*scaleX, height - button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: 2*button.defaultButton.size.width*scaleX,
+                                  y: height - button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -204,7 +206,8 @@ class MathScene: SKScene {
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.3, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "7", textColor: buttonColor, buttonAction: numberPressed7);
-        button.position = CGPointMake(button.defaultButton.size.width*scaleX, height - button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: button.defaultButton.size.width*scaleX,
+                                  y: height - button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -212,7 +215,8 @@ class MathScene: SKScene {
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.3, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "6", textColor: buttonColor, buttonAction: numberPressed6);
-        button.position = CGPointMake(3*button.defaultButton.size.width*scaleX, height - 2*button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: 3*button.defaultButton.size.width*scaleX,
+                                  y: height - 2*button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -220,7 +224,8 @@ class MathScene: SKScene {
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.3, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "5", textColor: buttonColor, buttonAction: numberPressed5);
-        button.position = CGPointMake(2*button.defaultButton.size.width*scaleX, height - 2*button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: 2*button.defaultButton.size.width*scaleX,
+                                  y: height - 2*button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -228,7 +233,8 @@ class MathScene: SKScene {
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.3, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "4", textColor: buttonColor, buttonAction: numberPressed4);
-        button.position = CGPointMake(button.defaultButton.size.width*scaleX, height - 2*button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: button.defaultButton.size.width*scaleX,
+                                  y: height - 2*button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -236,7 +242,8 @@ class MathScene: SKScene {
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.3, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "3", textColor: buttonColor, buttonAction: numberPressed3);
-        button.position = CGPointMake(3*button.defaultButton.size.width*scaleX, height - 3*button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: 3*button.defaultButton.size.width*scaleX,
+                                  y: height - 3*button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -244,7 +251,8 @@ class MathScene: SKScene {
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.3, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "2", textColor: buttonColor, buttonAction: numberPressed2);
-        button.position = CGPointMake(2*button.defaultButton.size.width*scaleX, height - 3*button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: 2*button.defaultButton.size.width*scaleX,
+                                  y: height - 3*button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -252,7 +260,8 @@ class MathScene: SKScene {
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.3, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "1", textColor: buttonColor, buttonAction: numberPressed1);
-        button.position = CGPointMake(button.defaultButton.size.width*scaleX, height - 3*button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: button.defaultButton.size.width*scaleX,
+                                  y: height - 3*button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -260,7 +269,8 @@ class MathScene: SKScene {
         universe.addChild(button);
         
         button = GGButton(scaleX: 0.6, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "0", textColor: buttonColor, buttonAction: numberPressed0);
-        button.position = CGPointMake(1.25*button.defaultButton.size.width*scaleX, height - 4*button.defaultButton.size.height*scaleY - yShift);
+        button.position = CGPoint(x: 1.25*button.defaultButton.size.width*scaleX,
+                                  y: height - 4*button.defaultButton.size.height*scaleY - yShift);
         button.xScale = scaleX;
         button.yScale = scaleY;
         button.restartLabel.fontSize = 50;
@@ -287,13 +297,14 @@ class MathScene: SKScene {
         }
         
         pauseButton = GGButton(scaleX: scaleX*0.15, scaleY: scaleY*0.4, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "||", textColor: buttonColor, buttonAction: pauseGame);
-        pauseButton.position = CGPointMake(pauseButton.defaultButton.size.width/2, height-pauseButton.defaultButton.size.height/2);
+        pauseButton.position = CGPoint(x: pauseButton.defaultButton.size.width/2,
+                                       y: height-pauseButton.defaultButton.size.height/2);
         universe.addChild(pauseButton);
         
-        if !NSUserDefaults.standardUserDefaults().boolForKey("notFirstTimeMath") {
-            fadeOutText("Enter your score!");
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "notFirstTimeMath");
-            NSUserDefaults.standardUserDefaults().synchronize();
+        if !UserDefaults.standard.bool(forKey: "notFirstTimeMath") {
+            fadeOutText(textString: "Enter your score!");
+            UserDefaults.standard.set(true, forKey: "notFirstTimeMath");
+            UserDefaults.standard.synchronize();
         }
         
         self.authenticateLocalPlayer()
@@ -302,10 +313,10 @@ class MathScene: SKScene {
     func placeLabel(text: NSString, distance: CGFloat, color: SKColor, yCoefficient: CGFloat) {
         let xCoefficient: CGFloat = 0.69;
         label = SKLabelNode(fontNamed:"Chalkduster");
-        label.text = text;
+        label.text = text as String;
         label.fontSize = fontSize;
         label.fontColor = color;
-        label.horizontalAlignmentMode = .Right
+        label.horizontalAlignmentMode = .right
         label.position = CGPoint(x:width*xCoefficient-distance*label.fontSize*scaleX, y:height-yCoefficient*label.fontSize*scaleY - labelShift - yShift);
         label.zPosition = 1;
         label.xScale = scaleX;
@@ -314,7 +325,7 @@ class MathScene: SKScene {
     }
     
     func appendSpriteWalking(textureAtlas: SKTextureAtlas, imageName: NSString) {
-        spriteArrayWalking.append(textureAtlas.textureNamed(imageName));
+        spriteArrayWalking.append(textureAtlas.textureNamed(imageName as String));
     }
     
     func decimalPlaces(var maxNumberLength: UInt32, whichNumber: UInt32) -> UInt32 {
@@ -344,67 +355,68 @@ class MathScene: SKScene {
         
         if numberOfInputs < 6 {
             
-            numberOfInputs++;
+            numberOfInputs += 1;
             
             let distance: CGFloat = 7 - numberOfInputs;
-            placeLabel(String(number), distance: distance, color: white, yCoefficient: 1.5);
+            placeLabel(text: String(number) as NSString, distance: distance, color: white, yCoefficient: 1.5);
             
             var numberPlace: UInt32 = UInt32(pow(10, Double(6-numberOfInputs)));
             var correctNumber: UInt32 = (score%(numberPlace*10))/(numberPlace);
             
             var processedScore: UInt32 = 0;
             if number == UInt32(correctNumber) {
-                playSound("GreenScore");
-                placeLabel(String(correctNumber), distance: distance, color: SKColor.greenColor(), yCoefficient: 3);
+                playSound(soundName: "GreenScore");
+                placeLabel(text: String(correctNumber) as NSString, distance: distance, color: SKColor.green, yCoefficient: 3);
                 processedScore = number;
-                placeLabel(String(number), distance: distance, color: white, yCoefficient: 4.5);
+                placeLabel(text: String(number) as NSString, distance: distance, color: white, yCoefficient: 4.5);
             }
             else {
-                playSound("RedScore");
-                placeLabel(String(correctNumber), distance: distance, color: SKColor.redColor(), yCoefficient: 3);
+                playSound(soundName: "RedScore");
+                placeLabel(text: String(correctNumber) as NSString, distance: distance, color: SKColor.red, yCoefficient: 3);
                 processedScore = 0;
-                placeLabel("0", distance: distance, color: white, yCoefficient: 4.5);
+                placeLabel(text: "0", distance: distance, color: white, yCoefficient: 4.5);
             }
             sum += processedScore*numberPlace;
             
             if numberOfInputs == 6 {
                 
-                placeLabel("(Remains)", distance: distance - 6, color: white, yCoefficient: 4.5);
+                placeLabel(text: "(Remains)", distance: distance - 6, color: white, yCoefficient: 4.5);
                 
-                var resultingNumber: UInt32 = decimalPlaces(6, whichNumber: sum);
+                var resultingNumber: UInt32 = decimalPlaces(var: 6, whichNumber: sum);
                 
                 for i in resultingNumber...6 {
                     numberPlace = UInt32(pow(10, Double(6-i)));
                     correctNumber = (sum%(numberPlace*10))/(numberPlace);
                     
-                    placeLabel(String(correctNumber), distance: 7 - CGFloat(i), color: white, yCoefficient: 6);
+                    placeLabel(text: String(correctNumber) as NSString, distance: 7 - CGFloat(i), color: white, yCoefficient: 6);
                 }
                 
-                resultingNumber = decimalPlaces(5, whichNumber: coins);
+                resultingNumber = decimalPlaces(var: 5, whichNumber: coins);
                 
                 for i in resultingNumber...5 {
                     numberPlace = UInt32(pow(10, Double(5-i)));
                     correctNumber = (coins%(numberPlace*10))/(numberPlace);
                     
-                    placeLabel(String(correctNumber), distance: -CGFloat(i), color: white, yCoefficient: 6);
+                    placeLabel(text: String(correctNumber) as NSString, distance: -CGFloat(i), color: white, yCoefficient: 6);
                 }
                 
-                placeLabel(" + ", distance: distance - 1, color: white, yCoefficient: 6);
+                placeLabel(text: " + ", distance: distance - 1, color: white, yCoefficient: 6);
                 
                 sum += coins;
-                resultingNumber = decimalPlaces(6, whichNumber: sum);
+                resultingNumber = decimalPlaces(var: 6, whichNumber: sum);
                 
                 for i in resultingNumber...6 {
                     numberPlace = UInt32(pow(10, Double(6-i)));
                     correctNumber = (sum%(numberPlace*10))/(numberPlace);
                     
-                    placeLabel(String(correctNumber), distance: 7 - CGFloat(i), color: white, yCoefficient: 7.5);
+                    placeLabel(text: String(correctNumber) as NSString, distance: 7 - CGFloat(i), color: white, yCoefficient: 7.5);
                 }
                 
-                placeLabel("(Total)", distance: distance - 6, color: white, yCoefficient: 7.5);
+                placeLabel(text: "(Total)", distance: distance - 6, color: white, yCoefficient: 7.5);
                 
                 button = GGButton(scaleX: 0.7, scaleY: 0.7, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Retry", textColor: buttonColor, buttonAction: retry);
-                button.position = CGPointMake(width - button.defaultButton.size.width*scaleX*0.75, height - button.defaultButton.size.height*scaleY - yShift);
+                button.position = CGPoint(x: width - button.defaultButton.size.width*scaleX*0.75,
+                                          y: height - button.defaultButton.size.height*scaleY - yShift);
                 button.xScale = scaleX;
                 button.yScale = scaleY;
                 universe.addChild(button);
@@ -414,7 +426,8 @@ class MathScene: SKScene {
                 button.activeButton.texture = SKTexture(imageNamed: "facebookPressed");
                 button.xScale = scaleX;
                 button.yScale = scaleX;
-                button.position = CGPointMake(width - button.defaultButton.size.width*scaleX*3.65, button.defaultButton.size.height*scaleY*1.15 - yShift);
+                button.position = CGPoint(x: width - button.defaultButton.size.width*scaleX*3.65,
+                                          y: button.defaultButton.size.height*scaleY*1.15 - yShift);
                 universe.addChild(button);
                 
                 button = GGButton(scaleX: 0.45, scaleY: 0.45, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "", textColor: buttonColor, buttonAction: postOnTwitter);
@@ -422,33 +435,35 @@ class MathScene: SKScene {
                 button.activeButton.texture = SKTexture(imageNamed: "twitterPressed");
                 button.xScale = scaleX;
                 button.yScale = scaleX;
-                button.position = CGPointMake(width - button.defaultButton.size.width*scaleX*2.5, button.defaultButton.size.height*scaleY*1.15 - yShift);
+                button.position = CGPoint(x: width - button.defaultButton.size.width*scaleX*2.5,
+                                          y: button.defaultButton.size.height*scaleY*1.15 - yShift);
                 universe.addChild(button);
                 
                 button = GGButton(scaleX: 0.675, scaleY: 0.6, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Scores", textColor: buttonColor, buttonAction: goToLocalScoresScene);
-                button.position = CGPointMake(width - button.defaultButton.size.width*scaleX*0.75, button.defaultButton.size.height*scaleY*0.9 - yShift);
+                button.position = CGPoint(x: width - button.defaultButton.size.width*scaleX*0.75,
+                                          y: button.defaultButton.size.height*scaleY*0.9 - yShift);
                 button.xScale = scaleX;
                 button.yScale = scaleY;
                 universe.addChild(button);
                 
                 var highscoreArray = Array<Int>();
                 for i in 0...4 {
-                    highscoreArray.append(NSUserDefaults.standardUserDefaults().integerForKey("highscore"+String(i)));
+                    highscoreArray.append(UserDefaults.standard.integer(forKey: "highscore"+String(i)));
                 }
                 highscoreArray.append(Int(sum));
-                highscoreArray = removeDuplicates(highscoreArray);
-                highscoreArray = highscoreArray.sorted(>);
+                highscoreArray = removeDuplicates(array: highscoreArray);
+                highscoreArray = highscoreArray.sorted(by: >);
                 for i in 0...4 {
                     highscoreArray.append(0);
                 }
                 for i in 0...4 {
-                    NSUserDefaults.standardUserDefaults().setInteger(highscoreArray[i], forKey: "highscore"+String(i));
+                    UserDefaults.standard.set(highscoreArray[i], forKey: "highscore"+String(i));
                 }
-                NSUserDefaults.standardUserDefaults().synchronize();
+                UserDefaults.standard.synchronize();
                 
                 if sum >= UInt32(highscoreArray[0]) {
-                    playSound("Highscore");
-                    fadeOutText("Highscore!");
+                    playSound(soundName: "Highscore");
+                    fadeOutText(textString: "Highscore!");
                 }
                 submitScore();
             }
@@ -456,138 +471,138 @@ class MathScene: SKScene {
     }
     func playSound(soundName: NSString) {
         if !soundOff {
-            runAction(SKAction.playSoundFileNamed(soundName+".wav", waitForCompletion: false));
+            run(SKAction.playSoundFileNamed(soundName as String+".wav", waitForCompletion: false));
         }
     }
     func fadeOutText(textString: NSString) {
         
-        playSound("FadeOut");
+        playSound(soundName: "FadeOut");
         let label = SKLabelNode(fontNamed:"Chalkduster");
-        label.text = textString;
+        label.text = textString as String;
         label.fontSize = 20;
-        label.fontColor = SKColor.whiteColor();
+        label.fontColor = SKColor.white;
         label.position = CGPoint(x:width/2, y:height/2);
         label.xScale = scaleX;
         label.yScale = scaleY;
         label.zPosition = 20;
         universe.addChild(label);
         
-        var flashAction: SKAction = SKAction.scaleBy(4, duration: 1);
-        label.runAction(flashAction);
-        flashAction = SKAction.fadeOutWithDuration(1);
-        label.runAction(flashAction, completion: {label.removeFromParent();});
+        var flashAction: SKAction = SKAction.scale(by: 4, duration: 1);
+        label.run(flashAction);
+        flashAction = SKAction.fadeOut(withDuration: 1);
+        label.run(flashAction, completion: {label.removeFromParent();});
     }
     func removeDuplicates(array:[Int]) -> [Int] {
         var arr = array
-        var indArr = [Int]()
-        var tempArr = arr
-        var i = 0
-        for a in enumerate(arr) {
-            
-            if contains(prefix(arr, a.index), a.element) {
-                indArr.append(a.index)
-            }
-            
-            i++
-        }
-        var ind = 0
-        for i in indArr {
-            arr.removeAtIndex(i-ind)
-            ind++
-        }
+//        var indArr = [Int]()
+//        var tempArr = arr
+//        var i = 0
+//        for a in enumerate(arr) {
+//
+//            if contains(prefix(arr, a.index), a.element) {
+//                indArr.append(a.index)
+//            }
+//
+//            i++
+//        }
+//        var ind = 0
+//        for i in indArr {
+//            arr.remove(at: i-ind)
+//            ind += 1
+//        }
         return arr
     }
     func goToLocalScoresScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.left, duration: 2);
         
-        let scene = LocalScores(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = LocalScores(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     func screenShotMethod() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSize(width: view!.frame.size.width, height: view!.frame.size.height), true, 1)
-        view!.drawViewHierarchyInRect(view!.frame, afterScreenUpdates: true)
+        view!.drawHierarchy(in: view!.frame, afterScreenUpdates: true)
         let context = UIGraphicsGetCurrentContext()
-        let image = UIGraphicsGetImageFromCurrentImageContext()
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return UIImage() }
         UIGraphicsEndImageContext()
         
         return image;
     }
     func postOnFacebook() {
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
+        if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook){
             var facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             facebookSheet.setInitialText("Wow! I scored "+String(score+coins)+" points in Math Quest.")
-            facebookSheet.addImage(screenShotMethod());
-            facebookSheet.addURL(NSURL(string: "http://mathquestgame.com"));
-            view?.window?.rootViewController?.presentViewController(facebookSheet, animated: true, completion: nil)
+            facebookSheet.add(screenShotMethod());
+            facebookSheet.add(NSURL(string: "http://mathquestgame.com") as URL?);
+            view?.window?.rootViewController?.present(facebookSheet, animated: true, completion: nil)
         } else {
-            var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
         }
     }
     func postOnTwitter() {
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
+        if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter){
             var twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter);
             twitterSheet.setInitialText("Wow! I scored "+String(score+coins)+" points in Math Quest.")
-            twitterSheet.addImage(screenShotMethod());
-            twitterSheet.addURL(NSURL(string: "http://mathquestgame.com"));
-            view?.window?.rootViewController?.presentViewController(twitterSheet, animated: true, completion: nil);
+            twitterSheet.add(screenShotMethod());
+            twitterSheet.add(NSURL(string: "http://mathquestgame.com") as URL?);
+            view?.window?.rootViewController?.present(twitterSheet, animated: true, completion: nil);
         } else {
-            var alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil));
-            view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil);
+            var alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil));
+            view?.window?.rootViewController?.present(alert, animated: true, completion: nil);
         }
     }
     
     func numberPressed0() {
-        numberPressed(0);
+        numberPressed(number: 0);
     }
     
     func numberPressed1() {
-        numberPressed(1);
+        numberPressed(number: 1);
     }
     
     func numberPressed2() {
-        numberPressed(2);
+        numberPressed(number: 2);
     }
     
     func numberPressed3() {
-        numberPressed(3);
+        numberPressed(number: 3);
     }
     
     func numberPressed4() {
-        numberPressed(4);
+        numberPressed(number: 4);
     }
     
     func numberPressed5() {
-        numberPressed(5);
+        numberPressed(number: 5);
     }
     
     func numberPressed6() {
-        numberPressed(6);
+        numberPressed(number: 6);
     }
     
     func numberPressed7() {
-        numberPressed(7);
+        numberPressed(number: 7);
     }
     
     func numberPressed8() {
-        numberPressed(8);
+        numberPressed(number: 8);
     }
     
     func numberPressed9() {
-        numberPressed(9);
+        numberPressed(number: 9);
     }
     
     func retry() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.right, duration: 2);
         
-        let scene = GameScene(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = GameScene(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
@@ -611,20 +626,22 @@ class MathScene: SKScene {
         addChild(finalmeters);
         
         buttonHome = GGButton(scaleX: 1, scaleY: 1, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Home", textColor: buttonColor, buttonAction: goToHomeScene);
-        buttonHome.position = CGPointMake(width/2-buttonHome.defaultButton.size.width/2, height/2-buttonHome.defaultButton.size.height/2);
+        buttonHome.position = CGPoint(x: width/2-buttonHome.defaultButton.size.width/2,
+                                      y: height/2-buttonHome.defaultButton.size.height/2);
         addChild(buttonHome);
         
         buttonResume = GGButton(scaleX: 1, scaleY: 1, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Resume", textColor: buttonColor, buttonAction: resumeGame);
-        buttonResume.position = CGPointMake(width/2+buttonResume.defaultButton.size.width/2, height/2-buttonResume.defaultButton.size.height/2);
+        buttonResume.position = CGPoint(x: width/2+buttonResume.defaultButton.size.width/2,
+                                        y: height/2-buttonResume.defaultButton.size.height/2);
         addChild(buttonResume);
         pauseButton.removeFromParent();
-        paused = true;
+        isPaused = true;
     }
     func resumeGame() {
         
         appDelegate.backgroundMusicPlayer.play()
         
-        paused = false;
+        isPaused = false;
         
         finalmeters.removeFromParent();
         buttonHome.removeFromParent();
@@ -636,10 +653,10 @@ class MathScene: SKScene {
     }
     func goToHomeScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.right, duration: 2);
         
-        let scene = Home(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = Home(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }

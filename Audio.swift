@@ -20,12 +20,12 @@ class Audio: SKScene {
     var buttonShowDifficulty: GGButton!;
     var buttonBack: GGButton!;
     var buttonColor: SKColor = SKColor(red: 0, green: 0.4784313725, blue: 1, alpha: 0.5);
-    var progressColor: SKColor = SKColor.whiteColor();
+    var progressColor: SKColor = SKColor.white;
     
     let buttonScaleX: CGFloat = 1;
     let buttonScaleY: CGFloat = 1;
     
-    let white = SKColor.whiteColor();
+    let white = SKColor.white;
     let fontSize: CGFloat = 40;
     
     var bannerHeight: CGFloat = 0;
@@ -41,10 +41,10 @@ class Audio: SKScene {
         self.adMobBannerView = bannerView;
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        width = CGRectGetMaxX(frame);
-        height = CGRectGetMaxY(frame);
+        width = frame.maxX;
+        height = frame.maxY;
         
         height -= bannerHeight;
         
@@ -61,7 +61,7 @@ class Audio: SKScene {
         progressLabel.text = "Audio:";
         progressLabel.fontSize = 60;
         progressLabel.fontColor = progressColor;
-        progressLabel.horizontalAlignmentMode = .Left;
+        progressLabel.horizontalAlignmentMode = .left;
         progressLabel.xScale = scaleX;
         progressLabel.yScale = scaleY;
         progressLabel.position = CGPoint(x:progressLabel.fontSize*scaleX, y:height-progressLabel.fontSize*scaleY*1.5);
@@ -69,14 +69,15 @@ class Audio: SKScene {
         
         addChild(progressLabel);
         
-        if NSUserDefaults.standardUserDefaults().boolForKey("soundOff") {
+        if UserDefaults.standard.bool(forKey: "soundOff") {
             
             buttonRemoveAds = GGButton(scaleX: buttonScaleX*1.6, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Sound is off", textColor: buttonColor, buttonAction: toggleSound);
             buttonRemoveAds.xScale = scaleX;
             buttonRemoveAds.yScale = scaleY;
             buttonRemoveAds.restartLabel.fontSize = 40;
             buttonRemoveAds.restartLabel.position.y = buttonRemoveAds.defaultButton.position.y - buttonRemoveAds.restartLabel.fontSize*0.35;
-            buttonRemoveAds.position = CGPointMake(buttonRemoveAds.defaultButton.size.width*scaleX*0.6, height-2.5*buttonRemoveAds.defaultButton.size.height*scaleY*0.7);
+            buttonRemoveAds.position = CGPoint(x: buttonRemoveAds.defaultButton.size.width*scaleX*0.6,
+                                               y: height-2.5*buttonRemoveAds.defaultButton.size.height*scaleY*0.7);
             addChild(buttonRemoveAds);
         }
         else {
@@ -85,18 +86,20 @@ class Audio: SKScene {
             buttonRemoveAds.yScale = scaleY;
             buttonRemoveAds.restartLabel.fontSize = 40;
             buttonRemoveAds.restartLabel.position.y = buttonRemoveAds.defaultButton.position.y - buttonRemoveAds.restartLabel.fontSize*0.35;
-            buttonRemoveAds.position = CGPointMake(buttonRemoveAds.defaultButton.size.width*scaleX*0.6, height-2.5*buttonRemoveAds.defaultButton.size.height*scaleY*0.7);
+            buttonRemoveAds.position = CGPoint(x: buttonRemoveAds.defaultButton.size.width*scaleX*0.6,
+                                               y: height-2.5*buttonRemoveAds.defaultButton.size.height*scaleY*0.7);
             addChild(buttonRemoveAds);
         }
         
-        if NSUserDefaults.standardUserDefaults().boolForKey("musicOff") {
+        if UserDefaults.standard.bool(forKey: "musicOff") {
             
             buttonShowDifficulty = GGButton(scaleX: buttonScaleX*1.6, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Music is off", textColor: buttonColor, buttonAction: toggleMusic);
             buttonShowDifficulty.xScale = scaleX;
             buttonShowDifficulty.yScale = scaleY;
             buttonShowDifficulty.restartLabel.fontSize = 40;
             buttonShowDifficulty.restartLabel.position.y = buttonShowDifficulty.defaultButton.position.y - buttonShowDifficulty.restartLabel.fontSize*0.35;
-            buttonShowDifficulty.position = CGPointMake(buttonShowDifficulty.defaultButton.size.width*scaleX*0.6, buttonShowDifficulty.defaultButton.size.height*scaleY*0.7);
+            buttonShowDifficulty.position = CGPoint(x: buttonShowDifficulty.defaultButton.size.width*scaleX*0.6,
+                                                    y: buttonShowDifficulty.defaultButton.size.height*scaleY*0.7);
             addChild(buttonShowDifficulty);
         }
         else {
@@ -105,7 +108,8 @@ class Audio: SKScene {
             buttonShowDifficulty.yScale = scaleY;
             buttonShowDifficulty.restartLabel.fontSize = 40;
             buttonShowDifficulty.restartLabel.position.y = buttonShowDifficulty.defaultButton.position.y - buttonShowDifficulty.restartLabel.fontSize*0.35;
-            buttonShowDifficulty.position = CGPointMake(buttonShowDifficulty.defaultButton.size.width*scaleX*0.6, buttonShowDifficulty.defaultButton.size.height*scaleY*0.7);
+            buttonShowDifficulty.position = CGPoint(x: buttonShowDifficulty.defaultButton.size.width*scaleX*0.6,
+                                                    y: buttonShowDifficulty.defaultButton.size.height*scaleY*0.7);
             addChild(buttonShowDifficulty);
         }
         
@@ -114,45 +118,46 @@ class Audio: SKScene {
         buttonBack.yScale = scaleY;
         buttonBack.restartLabel.fontSize = 40;
         buttonBack.restartLabel.position.y = buttonBack.defaultButton.position.y - buttonBack.restartLabel.fontSize*0.35;
-        buttonBack.position = CGPointMake(width-buttonBack.defaultButton.size.width*scaleX*0.6, buttonBack.defaultButton.size.height*scaleY*0.7);
+        buttonBack.position = CGPoint(x: width-buttonBack.defaultButton.size.width*scaleX*0.6,
+                                      y: buttonBack.defaultButton.size.height*scaleY*0.7);
         addChild(buttonBack);
     }
     func toggleSound() {
-        if !NSUserDefaults.standardUserDefaults().boolForKey("soundOff") {
+        if !UserDefaults.standard.bool(forKey: "soundOff") {
             buttonRemoveAds.restartLabel.text = "Sound is off";
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "soundOff");
-            NSUserDefaults.standardUserDefaults().synchronize();
+            UserDefaults.standard.set(true, forKey: "soundOff");
+            UserDefaults.standard.synchronize();
         }
         else {
             buttonRemoveAds.restartLabel.text = "Sound is on";
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "soundOff");
-            NSUserDefaults.standardUserDefaults().synchronize();
+            UserDefaults.standard.set(false, forKey: "soundOff");
+            UserDefaults.standard.synchronize();
         }
     }
     func toggleMusic() {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate;
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate;
         
-        if !NSUserDefaults.standardUserDefaults().boolForKey("musicOff") {
+        if !UserDefaults.standard.bool(forKey: "musicOff") {
             appDelegate.backgroundMusicPlayer.stop();
             
             buttonShowDifficulty.restartLabel.text = "Music is off";
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "musicOff");
-            NSUserDefaults.standardUserDefaults().synchronize();
+            UserDefaults.standard.set(true, forKey: "musicOff");
+            UserDefaults.standard.synchronize();
         }
         else {
             appDelegate.backgroundMusicPlayer.play();
             
             buttonShowDifficulty.restartLabel.text = "Music is on";
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "musicOff");
-            NSUserDefaults.standardUserDefaults().synchronize();
+            UserDefaults.standard.set(false, forKey: "musicOff");
+            UserDefaults.standard.synchronize();
         }
     }
     func placeLabel(text: NSString, distance: CGFloat, color: SKColor, yCoefficient: CGFloat) {
         let label = SKLabelNode(fontNamed:"ChalkboardSE-Bold");
-        label.text = text;
+        label.text = text as String;
         label.fontSize = fontSize;
         label.fontColor = color;
-        label.horizontalAlignmentMode = .Left
+        label.horizontalAlignmentMode = .left
         label.position = CGPoint(x:distance, y:height-yCoefficient*label.fontSize*scaleY);
         label.zPosition = 1;
         label.xScale = scaleX;
@@ -161,10 +166,10 @@ class Audio: SKScene {
     }
     func goToMenuScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.right, duration: 2);
         
-        let scene = Menu(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = Menu(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }

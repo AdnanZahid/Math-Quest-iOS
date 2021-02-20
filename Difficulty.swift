@@ -11,11 +11,11 @@ import SpriteKit
 class Difficulty: SKNode {
     
     var text: NSString = "";
-    var textColor: SKColor = SKColor.blueColor();
+    var textColor: SKColor = SKColor.blue;
     var label: SKLabelNode!;
     var action: () -> Void
     
-    init(text: NSString, textColor: SKColor, buttonAction: () -> Void) {
+    init(text: NSString, textColor: SKColor, buttonAction: @escaping () -> Void) {
         self.text = text;
         self.textColor = textColor;
         action = buttonAction
@@ -23,12 +23,12 @@ class Difficulty: SKNode {
         super.init()
         
         label = SKLabelNode(fontNamed:"Chalkduster");
-        label.text = text;
+        label.text = text as String;
         label.fontSize = 33;
         label.fontColor = textColor;
-        label.horizontalAlignmentMode = .Left;
+        label.horizontalAlignmentMode = .left;
         label.zPosition = 8;
-        userInteractionEnabled = true;
+        isUserInteractionEnabled = true;
         
         addChild(label);
     }
@@ -38,11 +38,12 @@ class Difficulty: SKNode {
     }
     
     #if os(iOS)
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        var touch: UITouch = touches.allObjects[0] as UITouch
-        var location: CGPoint = touch.locationInNode(self)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let touch: UITouch = touches.first else { return }
+        let location: CGPoint = touch.location(in: self)
         
-        if label.containsPoint(location) {
+        if label.contains(location) {
             action()
         }
     }

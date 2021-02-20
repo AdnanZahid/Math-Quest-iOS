@@ -19,7 +19,7 @@ class Menu: SKScene {
     var button: GGButton!;
     var buttonSound: GGButton!;
     var buttonColor: SKColor = SKColor(red: 0, green: 0.4784313725, blue: 1, alpha: 0.5);
-    var progressColor: SKColor = SKColor.whiteColor();
+    var progressColor: SKColor = SKColor.white;
     
     let buttonScaleX: CGFloat = 1;
     let buttonScaleY: CGFloat = 1;
@@ -37,10 +37,10 @@ class Menu: SKScene {
         self.adMobBannerView = bannerView;
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        width = CGRectGetMaxX(frame);
-        height = CGRectGetMaxY(frame);
+        width = frame.maxX;
+        height = frame.maxY;
         
         height -= bannerHeight;
         
@@ -57,7 +57,7 @@ class Menu: SKScene {
         progressLabel.text = "Menu:";
         progressLabel.fontSize = 60;
         progressLabel.fontColor = progressColor;
-        progressLabel.horizontalAlignmentMode = .Left;
+        progressLabel.horizontalAlignmentMode = .left;
         progressLabel.xScale = scaleX;
         progressLabel.yScale = scaleY;
         progressLabel.position = CGPoint(x:progressLabel.fontSize*scaleX, y:height-progressLabel.fontSize*scaleY*1.5);
@@ -70,7 +70,8 @@ class Menu: SKScene {
         buttonSound.yScale = scaleY;
         buttonSound.restartLabel.fontSize = 30;
         buttonSound.restartLabel.position.y = buttonSound.defaultButton.position.y - buttonSound.restartLabel.fontSize*0.35;
-        buttonSound.position = CGPointMake(buttonSound.defaultButton.size.width*scaleX, height-1.5*buttonSound.defaultButton.size.height*scaleY);
+        buttonSound.position = CGPoint(x: buttonSound.defaultButton.size.width*scaleX,
+                                       y: height-1.5*buttonSound.defaultButton.size.height*scaleY);
         addChild(buttonSound);
         
         button = GGButton(scaleX: buttonScaleX, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Highscores", textColor: buttonColor, buttonAction: goToLocalScoresScene);
@@ -78,7 +79,8 @@ class Menu: SKScene {
         button.yScale = scaleY;
         button.restartLabel.fontSize = 30;
         button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(width-button.defaultButton.size.width*scaleX, height-1.5*button.defaultButton.size.height*scaleY);
+        button.position = CGPoint(x: width-button.defaultButton.size.width*scaleX,
+                                  y: height-1.5*button.defaultButton.size.height*scaleY);
         addChild(button);
         
         button = GGButton(scaleX: buttonScaleX, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Difficulty", textColor: buttonColor, buttonAction: goToUpgradeScene);
@@ -86,7 +88,8 @@ class Menu: SKScene {
         button.yScale = scaleY;
         button.restartLabel.fontSize = 30;
         button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(button.defaultButton.size.width*scaleX, button.defaultButton.size.height*scaleY);
+        button.position = CGPoint(x: button.defaultButton.size.width*scaleX,
+                                  y: button.defaultButton.size.height*scaleY);
         addChild(button);
         
         button = GGButton(scaleX: buttonScaleX, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Back", textColor: buttonColor, buttonAction: goToHomeScene);
@@ -94,42 +97,43 @@ class Menu: SKScene {
         button.yScale = scaleY;
         button.restartLabel.fontSize = 30;
         button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(width-button.defaultButton.size.width*scaleX, button.defaultButton.size.height*scaleY);
+        button.position = CGPoint(x: width-button.defaultButton.size.width*scaleX,
+                                  y: button.defaultButton.size.height*scaleY);
         addChild(button);
     }
     func goToLocalScoresScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.left, duration: 2);
         
-        let scene = LocalScores(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = LocalScores(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     func goToAudioScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.left, duration: 2);
         
-        let scene = Audio(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = Audio(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     func goToUpgradeScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.left, duration: 2);
         
-        let scene = Upgrade(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = Upgrade(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
     func goToHomeScene() {
         
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 2);
+        let transition = SKTransition.reveal(with: SKTransitionDirection.right, duration: 2);
         
-        let scene = Home(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
+        let scene = Home(size: size, bannerHeight: CGFloat(UserDefaults.standard.float(forKey: "bannerHeight")), bannerView: adMobBannerView);
+        scene.scaleMode = .aspectFill;
         
         view?.presentScene(scene, transition: transition);
     }
