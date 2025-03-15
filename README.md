@@ -5,14 +5,16 @@ Math Quest is a fun and educational platformer game built using Apple's SpriteKi
 ## Features
 
 - **Platformer Gameplay** – Jump, run, and battle through various levels while solving math problems.
-- **Built with SpriteKit** – Smooth physics-based mechanics and engaging visuals powered by Apple’s game framework.
+- **Built with SpriteKit** – Smooth physics-based mechanics and engaging visuals powered by Apple's game framework.
 - **Adaptive Difficulty** – Dynamic scaling of difficulty based on player performance.
-- **Interactive Learning** – Math puzzles seamlessly integrated into the game’s mechanics.
+- **Interactive Learning** – Math puzzles seamlessly integrated into the game's mechanics.
 - **Progress Tracking** – Keep track of your learning journey with in-game stats and achievements.
 
 ## Gameplay Demo
 
-Check out the gameplay demo on YouTube:
+https://github.com/user-attachments/assets/8b30e50c-2bdd-4bdd-bebc-f21b30641fc1
+
+Check out the complete gameplay demo on YouTube:
 
 [![Math Quest Gameplay](https://img.youtube.com/vi/TcF-MheFxI4/0.jpg)](https://www.youtube.com/watch?v=TcF-MheFxI4)
 
