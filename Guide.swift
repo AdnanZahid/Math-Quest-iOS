@@ -9,120 +9,124 @@
 import SpriteKit
 
 class Guide: SKScene {
-    
-    var width: CGFloat = 0;
-    var height: CGFloat = 0;
-    
-    var scaleX: CGFloat = 0;
-    var scaleY: CGFloat = 0;
-    
-    let yShift: CGFloat = 90;
-    
-    var button: GGButton!;
-    var buttonSound: GGButton!;
-    var buttonColor: SKColor = SKColor(red: 0, green: 0.4784313725, blue: 1, alpha: 0.5);
-    var progressColor: SKColor = SKColor.whiteColor();
-    
-    let buttonScaleX: CGFloat = 1;
-    let buttonScaleY: CGFloat = 1;
-    
-    let white = SKColor.whiteColor();
-    let fontSize: CGFloat = 40;
-    
-    var bannerHeight: CGFloat = 0;
-    var adMobBannerView: GADBannerView!;
-    
+
+    private var width: CGFloat = 0
+    private var height: CGFloat = 0
+
+    private var scaleX: CGFloat = 0
+    private var scaleY: CGFloat = 0
+
+    private let yShift: CGFloat = 90
+
+    private var button: GGButton!
+    private let buttonColor = SKColor(red: 0, green: 0.4784313725, blue: 1, alpha: 0.5)
+    private let progressColor = SKColor.white
+
+    private let buttonScaleX: CGFloat = 1
+    private let buttonScaleY: CGFloat = 1
+
+    private let white = SKColor.white
+    private let fontSize: CGFloat = 40
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    init(size: CGSize, bannerHeight: CGFloat, bannerView: GADBannerView) {
-        super.init(size: size);
-        self.bannerHeight = bannerHeight;
-        self.adMobBannerView = bannerView;
+
+    override init(size: CGSize) {
+        super.init(size: size)
     }
-    
-    override func didMoveToView(view: SKView) {
-        
-        width = CGRectGetMaxX(frame);
-        height = CGRectGetMaxY(frame);
-        
-        height -= bannerHeight;
-        
-        let background = SKSpriteNode(imageNamed:"blackboard");
-        scaleX = width/background.size.width;
-        scaleY = height/background.size.height;
-        background.xScale = scaleX;
-        background.yScale = scaleY;
-        background.position = CGPoint(x:width/2, y:height/2);
-        background.zPosition = 0;
-        addChild(background);
-        
-        button = GGButton(scaleX: buttonScaleX*1.6, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Tutorial", textColor: buttonColor, buttonAction: demo);
-        button.xScale = scaleX;
-        button.yScale = scaleY;
-        button.restartLabel.fontSize = 40;
-        button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(button.defaultButton.size.width*scaleX*0.6, button.defaultButton.size.height*scaleY*0.7);
-        addChild(button);
-        
-        button = GGButton(scaleX: buttonScaleX, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Back", textColor: buttonColor, buttonAction: goToMenuScene);
-        button.xScale = scaleX;
-        button.yScale = scaleY;
-        button.restartLabel.fontSize = 40;
-        button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(width-button.defaultButton.size.width*scaleX*0.6, button.defaultButton.size.height*scaleY*0.7);
-        addChild(button);
-        
-        let progressLabel = SKLabelNode(fontNamed:"Chalkduster");
-        progressLabel.text = "Guide:";
-        progressLabel.fontSize = 60;
-        progressLabel.fontColor = progressColor;
-        progressLabel.horizontalAlignmentMode = .Left;
-        progressLabel.xScale = scaleX;
-        progressLabel.yScale = scaleY;
-        progressLabel.position = CGPoint(x:progressLabel.fontSize*scaleX, y:height-progressLabel.fontSize*scaleY*1.5);
-        progressLabel.zPosition = 8;
-        
-        addChild(progressLabel);
-        
-        placeLabel("1) Tap the screen to fly.", distance: progressLabel.fontSize*scaleX, color: white, yCoefficient: 1.5);
-        placeLabel("2) Collect numbers and coins.", distance: progressLabel.fontSize*scaleX, color: white, yCoefficient: 3);
-        placeLabel("3) Calculate your own score.", distance: progressLabel.fontSize*scaleX, color: white, yCoefficient: 4.5);
+
+    override func didMove(to view: SKView) {
+        width = frame.maxX
+        height = frame.maxY
+
+        let background = SKSpriteNode(imageNamed: "blackboard")
+        scaleX = width / background.size.width
+        scaleY = height / background.size.height
+        background.xScale = scaleX
+        background.yScale = scaleY
+        background.position = CGPoint(x: width / 2, y: height / 2)
+        background.zPosition = 0
+        addChild(background)
+
+        button = GGButton(
+            scaleX: buttonScaleX * 1.6,
+            scaleY: buttonScaleY,
+            defaultButtonImage: "button_default",
+            activeButtonImage: "button_pressed",
+            text: "Tutorial",
+            textColor: buttonColor,
+            buttonAction: demo
+        )
+        button.xScale = scaleX
+        button.yScale = scaleY
+        button.restartLabel.fontSize = 40
+        button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize * 0.35
+        button.position = CGPoint(x: button.defaultButton.size.width * scaleX * 0.6, y: button.defaultButton.size.height * scaleY * 0.7)
+        addChild(button)
+
+        button = GGButton(
+            scaleX: buttonScaleX,
+            scaleY: buttonScaleY,
+            defaultButtonImage: "button_default",
+            activeButtonImage: "button_pressed",
+            text: "Back",
+            textColor: buttonColor,
+            buttonAction: goToHomeScene
+        )
+        button.xScale = scaleX
+        button.yScale = scaleY
+        button.restartLabel.fontSize = 40
+        button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize * 0.35
+        button.position = CGPoint(x: width - button.defaultButton.size.width * scaleX * 0.6, y: button.defaultButton.size.height * scaleY * 0.7)
+        addChild(button)
+
+        let progressLabel = SKLabelNode(fontNamed: "Chalkduster")
+        progressLabel.text = "Guide:"
+        progressLabel.fontSize = 60
+        progressLabel.fontColor = progressColor
+        progressLabel.horizontalAlignmentMode = .left
+        progressLabel.xScale = scaleX
+        progressLabel.yScale = scaleY
+        progressLabel.position = CGPoint(x: progressLabel.fontSize * scaleX, y: height - progressLabel.fontSize * scaleY * 1.5)
+        progressLabel.zPosition = 8
+        addChild(progressLabel)
+
+        placeLabel("1) Tap the screen to fly.", distance: progressLabel.fontSize * scaleX, color: white, yCoefficient: 1.5)
+        placeLabel("2) Collect numbers and coins.", distance: progressLabel.fontSize * scaleX, color: white, yCoefficient: 3)
+        placeLabel("3) Calculate your own score.", distance: progressLabel.fontSize * scaleX, color: white, yCoefficient: 4.5)
     }
+
     func demo() {
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "notFirstTime");
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "notFirstTimeGoldenNumbers");
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "notFirstTimeRememberScore");
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "notFirstTimeMath");
-        NSUserDefaults.standardUserDefaults().synchronize();
-        
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
-        
-        let scene = GameScene(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
-        
-        view?.presentScene(scene, transition: transition);
+        let defaults = UserDefaults.standard
+        defaults.set(false, forKey: "notFirstTime")
+        defaults.set(false, forKey: "notFirstTimeGoldenNumbers")
+        defaults.set(false, forKey: "notFirstTimeRememberScore")
+        defaults.set(false, forKey: "notFirstTimeMath")
+
+        let transition = SKTransition.reveal(with: .left, duration: 2)
+        let scene = GameScene(size: size)
+        scene.scaleMode = .aspectFill
+        view?.presentScene(scene, transition: transition)
     }
-    func placeLabel(text: NSString, distance: CGFloat, color: SKColor, yCoefficient: CGFloat) {
-        let label = SKLabelNode(fontNamed:"ChalkboardSE-Bold");
-        label.text = text;
-        label.fontSize = fontSize;
-        label.fontColor = color;
-        label.horizontalAlignmentMode = .Left
-        label.position = CGPoint(x:distance, y:height-yCoefficient*label.fontSize*scaleY - yShift*scaleY);
-        label.zPosition = 1;
-        label.xScale = scaleX;
-        label.yScale = scaleY;
-        addChild(label);
+
+    func placeLabel(_ text: String, distance: CGFloat, color: SKColor, yCoefficient: CGFloat) {
+        let label = SKLabelNode(fontNamed: "ChalkboardSE-Bold")
+        label.text = text
+        label.fontSize = fontSize
+        label.fontColor = color
+        label.horizontalAlignmentMode = .left
+        label.position = CGPoint(x: distance, y: height - yCoefficient * label.fontSize * scaleY - yShift * scaleY)
+        label.zPosition = 1
+        label.xScale = scaleX
+        label.yScale = scaleY
+        addChild(label)
     }
-    func goToMenuScene() {
-        
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 2);
-        
-        let scene = Home(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
-        
-        view?.presentScene(scene, transition: transition);
+
+    func goToHomeScene() {
+        let transition = SKTransition.reveal(with: .right, duration: 2)
+        let scene = Home(size: size)
+        scene.scaleMode = .aspectFill
+        view?.presentScene(scene, transition: transition)
     }
 }

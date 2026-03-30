@@ -7,205 +7,136 @@
 //
 
 import SpriteKit
-import Social
-import AVFoundation
+import UIKit
 
 class Home: SKScene {
-    
-    var width: CGFloat = 0;
-    var height: CGFloat = 0;
-    
-    var scaleX: CGFloat = 0;
-    var scaleY: CGFloat = 0;
-    
-    var button: GGButton!;
-    var buttonSound: GGButton!;
-    var buttonColor: SKColor = SKColor(red: 0, green: 0.4784313725, blue: 1, alpha: 0.5);
-    
-    let buttonScaleX: CGFloat = 2;
-    let buttonScaleY: CGFloat = 2.5;
-    
-    var yShift: CGFloat = 0;
-    var backgroundTouched: Bool = false;
-    
-    var bannerHeight: CGFloat = 0;
-    var adMobBannerView: GADBannerView!;
-    
-    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate;
-    var backgroundMusicPlayer: AVAudioPlayer!;
-    
-    func playBackgroundMusic() {
-        
-        if !NSUserDefaults.standardUserDefaults().boolForKey("musicOff") {
-            var error: NSError?
-            let backgroundMusicURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Home", ofType: "wav")!)
-            appDelegate.backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: backgroundMusicURL, error: &error)
-            appDelegate.backgroundMusicPlayer.numberOfLoops = -1
-            appDelegate.backgroundMusicPlayer.prepareToPlay()
-            appDelegate.backgroundMusicPlayer.play()
-        }
+
+    private var width: CGFloat = 0
+    private var height: CGFloat = 0
+
+    private var scaleX: CGFloat = 0
+    private var scaleY: CGFloat = 0
+
+    private var menuButton: GGButton!
+    private var guideButton: GGButton!
+    private let buttonColor = SKColor(red: 0, green: 0.4784313725, blue: 1, alpha: 0.5)
+
+    private let buttonScaleX: CGFloat = 2
+    private let buttonScaleY: CGFloat = 2.5
+
+    private var yShift: CGFloat = 0
+    private var backgroundTouched = false
+
+    private var appDelegate: AppDelegate? {
+        UIApplication.shared.delegate as? AppDelegate
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    init(size: CGSize, bannerHeight: CGFloat, bannerView: GADBannerView) {
-        super.init(size: size);
-        self.bannerHeight = bannerHeight;
-        self.adMobBannerView = bannerView;
+
+    override init(size: CGSize) {
+        super.init(size: size)
     }
-    
-    override func didMoveToView(view: SKView) {
-        
-        if !appDelegate.backgroundMusicPlayer.playing {
-            playBackgroundMusic();
+
+    override func didMove(to view: SKView) {
+        if appDelegate?.backgroundMusicPlayer?.isPlaying != true {
+            appDelegate?.playBackgroundMusic(named: "Home")
         }
-        
-        width = CGRectGetMaxX(frame);
-        height = CGRectGetMaxY(frame);
-        
-        height -= bannerHeight;
-        
-        yShift = height/8;
-        
-        let background = SKSpriteNode(imageNamed:"splash_background");
-        scaleX = width/background.size.width;
-        scaleY = height/background.size.height;
-        background.xScale = scaleX;
-        background.yScale = scaleY;
-        background.position = CGPoint(x:width/2, y:height/2);
-        background.zPosition = 0;
-        addChild(background);
-        
-        buttonSound = GGButton(scaleX: buttonScaleX, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Guide", textColor: buttonColor, buttonAction: goToGuide);
-        buttonSound.xScale = scaleX;
-        buttonSound.yScale = scaleY;
-        buttonSound.restartLabel.fontSize = 80;
-        buttonSound.restartLabel.position.y = buttonSound.defaultButton.position.y - buttonSound.restartLabel.fontSize*0.35;
-        buttonSound.position = CGPointMake(buttonSound.defaultButton.size.width*scaleX/2, height*0.75 - yShift);
-        addChild(buttonSound);
-        
-        button = GGButton(scaleX: buttonScaleX, scaleY: buttonScaleY, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "Menu", textColor: buttonColor, buttonAction: showMenu);
-        button.xScale = scaleX;
-        button.yScale = scaleY;
-        button.restartLabel.fontSize = 80;
-        button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(button.defaultButton.size.width*scaleX/2, height*0.25 - yShift);
-        addChild(button);
-        
-        button = GGButton(scaleX: 1.5, scaleY: 1.5, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "", textColor: buttonColor, buttonAction: connectToFacebook);
-        button.defaultButton.texture = SKTexture(imageNamed: "facebook");
-        button.activeButton.texture = SKTexture(imageNamed: "facebookPressed");
-        button.xScale = scaleX;
-        button.yScale = scaleX;
-        button.restartLabel.fontSize = 80;
-        button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(width-button.defaultButton.size.width*scaleX*0.55, height*0.75 - yShift);
-        addChild(button);
-        
-        button = GGButton(scaleX: 1.5, scaleY: 1.5, defaultButtonImage: "button_default", activeButtonImage: "button_pressed", text: "", textColor: buttonColor, buttonAction: connectToTwitter);
-        button.defaultButton.texture = SKTexture(imageNamed: "twitter");
-        button.activeButton.texture = SKTexture(imageNamed: "twitterPressed");
-        button.xScale = scaleX;
-        button.yScale = scaleX;
-        button.restartLabel.fontSize = 80;
-        button.restartLabel.position.y = button.defaultButton.position.y - button.restartLabel.fontSize*0.35;
-        button.position = CGPointMake(width-button.defaultButton.size.width*scaleX*0.55, height*0.25 - yShift);
-        addChild(button);
-        
-        fadeOutText("Tap screen to play!");
+
+        width = frame.maxX
+        height = frame.maxY
+        yShift = height / 8
+
+        let background = SKSpriteNode(imageNamed: "splash_background")
+        scaleX = width / background.size.width
+        scaleY = height / background.size.height
+        background.xScale = scaleX
+        background.yScale = scaleY
+        background.position = CGPoint(x: width / 2, y: height / 2)
+        background.zPosition = 0
+        addChild(background)
+
+        guideButton = GGButton(
+            scaleX: buttonScaleX,
+            scaleY: buttonScaleY,
+            defaultButtonImage: "button_default",
+            activeButtonImage: "button_pressed",
+            text: "Guide",
+            textColor: buttonColor,
+            buttonAction: goToGuide
+        )
+        guideButton.xScale = scaleX
+        guideButton.yScale = scaleY
+        guideButton.restartLabel.fontSize = 80
+        guideButton.restartLabel.position.y = guideButton.defaultButton.position.y - guideButton.restartLabel.fontSize * 0.35
+        guideButton.position = CGPoint(x: width * 0.28, y: height * 0.2 - yShift * 0.35)
+        addChild(guideButton)
+
+        menuButton = GGButton(
+            scaleX: buttonScaleX,
+            scaleY: buttonScaleY,
+            defaultButtonImage: "button_default",
+            activeButtonImage: "button_pressed",
+            text: "Menu",
+            textColor: buttonColor,
+            buttonAction: showMenu
+        )
+        menuButton.xScale = scaleX
+        menuButton.yScale = scaleY
+        menuButton.restartLabel.fontSize = 80
+        menuButton.restartLabel.position.y = menuButton.defaultButton.position.y - menuButton.restartLabel.fontSize * 0.35
+        menuButton.position = CGPoint(x: width * 0.72, y: height * 0.2 - yShift * 0.35)
+        addChild(menuButton)
+
+        fadeOutText("Tap screen to play!")
     }
-    
-    func fadeOutText(textString: NSString) {
-        
-        let label = SKLabelNode(fontNamed:"ChalkboardSE-Bold");
-        label.text = textString;
-        label.fontSize = 100;
-        label.fontColor = SKColor.lightGrayColor();
-        label.position = CGPoint(x:width*0.525, y:height*0.1);
-        label.xScale = scaleX;
-        label.yScale = scaleY;
-        label.zPosition = 16;
-        addChild(label);
-        
-        var fadeOut = SKAction.fadeOutWithDuration(1);
-        var fadeIn = SKAction.fadeInWithDuration(1);
-        label.runAction(SKAction.repeatActionForever(SKAction.sequence([fadeOut, fadeIn])));
+
+    func fadeOutText(_ textString: String) {
+        let label = SKLabelNode(fontNamed: "ChalkboardSE-Bold")
+        label.text = textString
+        label.fontSize = 100
+        label.fontColor = .lightGray
+        label.position = CGPoint(x: width * 0.525, y: height * 0.1)
+        label.xScale = scaleX
+        label.yScale = scaleY
+        label.zPosition = 16
+        addChild(label)
+
+        let fadeOut = SKAction.fadeOut(withDuration: 1)
+        let fadeIn = SKAction.fadeIn(withDuration: 1)
+        label.run(.repeatForever(.sequence([fadeOut, fadeIn])))
     }
+
     func showMenu() {
-        
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
-        
-        let scene = Menu(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
-        
-        view?.presentScene(scene, transition: transition);
+        let transition = SKTransition.reveal(with: .left, duration: 2)
+        let scene = Menu(size: size)
+        scene.scaleMode = .aspectFill
+        view?.presentScene(scene, transition: transition)
     }
-    
-    func connectToFacebook() {
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
-            var facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook);
-            facebookSheet.setInitialText("This game is awesome!");
-            facebookSheet.addImage(UIImage(named: "splash_background"));
-            facebookSheet.addURL(NSURL(string: "http://mathquestgame.com"));
-            
-            view?.window?.rootViewController?.presentViewController(facebookSheet, animated: true, completion: nil);
-        } else {
-            var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert);
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil));
-            view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil);
-        }
-    }
-    func connectToTwitter() {
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
-            var twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter);
-            twitterSheet.setInitialText("This game is awesome!");
-            twitterSheet.addImage(UIImage(named: "splash_background"));
-            twitterSheet.addURL(NSURL(string: "http://mathquestgame.com"));
-            view?.window?.rootViewController?.presentViewController(twitterSheet, animated: true, completion: nil);
-        } else {
-            var alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.Alert);
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil));
-            view?.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil);
-        }
-    }
+
     func goToGuide() {
-        
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
-        
-        let scene = Guide(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
-        
-        view?.presentScene(scene, transition: transition);
+        let transition = SKTransition.reveal(with: .left, duration: 2)
+        let scene = Guide(size: size)
+        scene.scaleMode = .aspectFill
+        view?.presentScene(scene, transition: transition)
     }
-    
+
     func goToGameScene() {
-        
-        let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 2);
-        
-        let scene = GameScene(size: size, bannerHeight: CGFloat(NSUserDefaults.standardUserDefaults().floatForKey("bannerHeight")), bannerView: adMobBannerView);
-        scene.scaleMode = .AspectFill;
-        
-        view?.presentScene(scene, transition: transition);
+        let transition = SKTransition.reveal(with: .left, duration: 2)
+        let scene = GameScene(size: size)
+        scene.scaleMode = .aspectFill
+        view?.presentScene(scene, transition: transition)
     }
-    
-    #if os(iOS)
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
-        backgroundTouched = true;
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        backgroundTouched = true
     }
-    #else
-    override func mouseDown(theEvent: NSEvent) {
-    
-        backgroundTouched = true;
-    }
-    #endif
-    
-    override func update(currentTime: CFTimeInterval) {
+
+    override func update(_ currentTime: TimeInterval) {
         if backgroundTouched {
-            backgroundTouched = false;
-            goToGameScene();
+            backgroundTouched = false
+            goToGameScene()
         }
     }
 }

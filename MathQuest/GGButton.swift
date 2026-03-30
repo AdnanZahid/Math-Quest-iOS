@@ -9,137 +9,93 @@
 import SpriteKit
 
 class GGButton: SKNode {
-    var defaultButton: SKSpriteNode
-    var activeButton: SKSpriteNode
-    var action: () -> Void
-    var text: NSString = "";
-    var textColor: SKColor = SKColor.blueColor();
-    var restartLabel: SKLabelNode!;
-    var soundOff: Bool = false;
-    
-    init(scaleX: CGFloat, scaleY: CGFloat, defaultButtonImage: String, activeButtonImage: String, text: NSString, textColor: SKColor, buttonAction: () -> Void) {
+    let defaultButton: SKSpriteNode
+    let activeButton: SKSpriteNode
+    let restartLabel: SKLabelNode
+
+    private let action: () -> Void
+
+    init(
+        scaleX: CGFloat,
+        scaleY: CGFloat,
+        defaultButtonImage: String,
+        activeButtonImage: String,
+        text: String,
+        textColor: SKColor,
+        buttonAction: @escaping () -> Void
+    ) {
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
         activeButton = SKSpriteNode(imageNamed: activeButtonImage)
-        
-        defaultButton.xScale = scaleX;
-        defaultButton.yScale = scaleY;
-        activeButton.xScale = scaleX;
-        activeButton.yScale = scaleY;
-        
-        defaultButton.zPosition = 14;
-        activeButton.zPosition = 15;
-        activeButton.hidden = true
         action = buttonAction
-        self.text = text;
-        self.textColor = textColor;
-        
+        restartLabel = SKLabelNode(fontNamed: "ChalkboardSE-Bold")
+
         super.init()
-        
-        userInteractionEnabled = true
+
+        defaultButton.xScale = scaleX
+        defaultButton.yScale = scaleY
+        activeButton.xScale = scaleX
+        activeButton.yScale = scaleY
+
+        defaultButton.zPosition = 14
+        activeButton.zPosition = 15
+        activeButton.isHidden = true
+
+        restartLabel.text = text
+        restartLabel.fontSize = 50 * scaleY
+        restartLabel.fontColor = textColor
+        restartLabel.position.x = defaultButton.position.x
+        restartLabel.position.y = defaultButton.position.y - restartLabel.fontSize * 0.35
+        restartLabel.zPosition = 15
+
+        isUserInteractionEnabled = true
         addChild(defaultButton)
         addChild(activeButton)
-        
-        restartLabel = SKLabelNode(fontNamed:"ChalkboardSE-Bold");
-        restartLabel.text = text;
-        restartLabel.fontSize = 50*scaleY;
-        restartLabel.fontColor = textColor;
-        restartLabel.position.x = defaultButton.position.x;
-        restartLabel.position.y = defaultButton.position.y - restartLabel.fontSize*0.35;
-        restartLabel.zPosition = 15;
-        addChild(restartLabel);
+        addChild(restartLabel)
     }
-    
-    required init(coder aDecoder: NSCoder) {
+
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    #if os(iOS)
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        activeButton.hidden = false
-        defaultButton.hidden = true
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        setHighlighted(true)
     }
 
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        var touch: UITouch = touches.allObjects[0] as UITouch
-        var location: CGPoint = touch.locationInNode(self)
-
-        if defaultButton.containsPoint(location) {
-            activeButton.hidden = false
-            defaultButton.hidden = true
-        } else {
-            activeButton.hidden = true
-            defaultButton.hidden = false
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
         }
-    }
-    
-    func playSound(soundName: NSString) {
-        if !NSUserDefaults.standardUserDefaults().boolForKey("soundOff") {
-            runAction(SKAction.playSoundFileNamed(soundName+".wav", waitForCompletion: false));
-        }
-    }
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        var touch: UITouch = touches.allObjects[0] as UITouch
-        var location: CGPoint = touch.locationInNode(self)
 
-        if defaultButton.containsPoint(location) {
+        let location = touch.location(in: self)
+        setHighlighted(defaultButton.contains(location))
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        setHighlighted(false)
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        defer { setHighlighted(false) }
+
+        guard let touch = touches.first else {
+            return
+        }
+
+        let location = touch.location(in: self)
+        if defaultButton.contains(location) {
             action()
-            playSound("Button");
+            playSound("Button")
         }
+    }
 
-        activeButton.hidden = true
-        defaultButton.hidden = false
+    private func setHighlighted(_ highlighted: Bool) {
+        activeButton.isHidden = !highlighted
+        defaultButton.isHidden = highlighted
     }
-    #else
-    override func mouseDown(theEvent: NSEvent) {
-        
-        var location: CGPoint = theEvent.locationInNode(self);
-        
-        if defaultButton.containsPoint(location) {
-            activeButton.hidden = false;
-            defaultButton.hidden = true;
-        } else {
-            activeButton.hidden = true;
-            defaultButton.hidden = false;
+
+    private func playSound(_ soundName: String) {
+        if !UserDefaults.standard.bool(forKey: "soundOff") {
+            run(SKAction.playSoundFileNamed("\(soundName).wav", waitForCompletion: false))
         }
     }
-    
-    override func mouseMoved(theEvent: NSEvent) {
-        
-        var location: CGPoint = theEvent.locationInNode(self);
-        
-        if defaultButton.containsPoint(location) {
-            activeButton.hidden = false;
-            defaultButton.hidden = true;
-        } else {
-            activeButton.hidden = true;
-            defaultButton.hidden = false;
-        }
-    }
-    
-    override func mouseUp(theEvent: NSEvent) {
-        
-        var location: CGPoint = theEvent.locationInNode(self);
-        
-        if defaultButton.containsPoint(location) {
-            action();
-            playSound("Button");
-        }
-    
-        activeButton.hidden = true;
-        defaultButton.hidden = false;
-    }
-    
-    override func mouseExited(theEvent: NSEvent) {
-        
-        var location: CGPoint = theEvent.locationInNode(self);
-        
-        if defaultButton.containsPoint(location) {
-            action();
-            playSound("Button");
-        }
-    
-        activeButton.hidden = true;
-        defaultButton.hidden = false;
-    }
-    #endif
 }

@@ -9,51 +9,38 @@
 import SpriteKit
 
 class Difficulty: SKNode {
-    
-    var text: NSString = "";
-    var textColor: SKColor = SKColor.blueColor();
-    var label: SKLabelNode!;
-    var action: () -> Void
-    
-    init(text: NSString, textColor: SKColor, buttonAction: () -> Void) {
-        self.text = text;
-        self.textColor = textColor;
+
+    let label: SKLabelNode
+    private let action: () -> Void
+
+    init(text: String, textColor: SKColor, buttonAction: @escaping () -> Void) {
         action = buttonAction
-        
+
+        label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = text
+        label.fontSize = 33
+        label.fontColor = textColor
+        label.horizontalAlignmentMode = .left
+        label.zPosition = 8
+
         super.init()
-        
-        label = SKLabelNode(fontNamed:"Chalkduster");
-        label.text = text;
-        label.fontSize = 33;
-        label.fontColor = textColor;
-        label.horizontalAlignmentMode = .Left;
-        label.zPosition = 8;
-        userInteractionEnabled = true;
-        
-        addChild(label);
+
+        isUserInteractionEnabled = true
+        addChild(label)
     }
-    
-    required init(coder aDecoder: NSCoder) {
+
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    #if os(iOS)
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        var touch: UITouch = touches.allObjects[0] as UITouch
-        var location: CGPoint = touch.locationInNode(self)
-        
-        if label.containsPoint(location) {
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
+        }
+
+        let location = touch.location(in: self)
+        if label.contains(location) {
             action()
         }
     }
-    #else
-    override func mouseDown(theEvent: NSEvent) {
-        var location: CGPoint = theEvent.locationInNode(self);
-    
-        if label.containsPoint(location) {
-            action();
-        }
-    }
-    
-    #endif
 }
